@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Local data and run products
+data/
+outputs/
+outputs*/
+work_dirs/
+logs/
+checkpoints/
+*.fits
+*.fits.gz
+*.h5
+*.hdf5
+*.parquet
+*.csv
+*.csv.gz
+*.npz
+*.png
+*.jpg
+*.jpeg
+*.pdf
+
+# Keep example placeholders visible if they are ever added.
+!examples/**/*.csv
+!examples/**/*.yaml
+!examples/**/*.yml
+!examples/**/*.env
+
+# Editors and OS
+.DS_Store
+.idea/
+.vscode/
+*.swp

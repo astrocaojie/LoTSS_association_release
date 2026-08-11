@@ -1,0 +1,152 @@
+tile_id: lotss_dr3_0_stokesI_fullres_ablation
+
+# Default to the same real tile/demo inputs as tile_demo.yaml.
+# Override these paths here for a different tile; Python code does not hard-code them.
+radio_image: data/example/lotss_dr3_0_stokesI_fullres.fits
+gaussian_catalogue: data/example/lotss_dr3_0_stokesI_fullres.pybdsf.gaul.fits
+rms_map: null
+output_dir: outputs/ablation
+
+radio_hdu: null
+rms_hdu: null
+
+demo_region:
+  enabled: true
+  mode: pixel_box
+  xmin: 1024
+  xmax: 3072
+  ymin: 12288
+  ymax: 14336
+  padding_pixels: 32
+
+max_components: null
+random_seed: 42
+
+manual_labels: null
+manual_layer1_labels: null
+manual_layer2_labels: null
+
+mean_mode: median
+rms_mode: mad
+use_catalogue_rms_for_snr: true
+smooth_before_segmentation: true
+gaussian_smooth_sigma_pix: 1.0
+
+snr_thresholds: [5.0, 4.0, 3.0, 2.5, 2.0]
+min_mask_area_pix: 20
+connectivity: 2
+binary_opening: false
+binary_closing: true
+
+beam:
+  major_arcsec: 6.0
+  minor_arcsec: 6.0
+  pa_deg: 0.0
+
+neighbour_search:
+  max_distance_beam: 15.0
+  method: ckdtree
+
+association:
+  enabled: true
+  max_pair_distance_beam: 15.0
+  threshold_strong: 3.0
+  threshold_weak: 2.0
+  use_connected_components_for_strong_edges: true
+  weak_edges_attach_only: true
+  min_bridge_width_beam: 0.8
+  min_bridge_length_beam: 1.0
+  max_only_2sigma_score: 0.5
+  quality_thresholds:
+    high: 3.5
+    medium: 2.5
+    low: 1.5
+
+weights_association:
+  closeness: 1.0
+  overlap: 1.0
+  pa_alignment: 0.8
+  conn_3sigma: 1.5
+  conn_2p5sigma: 0.6
+  conn_2sigma: 0.0
+  bridge: 1.2
+  ridge: 1.2
+  flux_continuity: 0.5
+  flow_alignment: 0.6
+  valley: 1.5
+  only_2sigma: 1.0
+  negative_bowl: 1.2
+  sidelobe: 1.5
+  too_far: 2.0
+  large_mask_swallow: 1.5
+
+association_types:
+  compact_multi_gaussian:
+    max_las_beam: 4.0
+  continuous_extended:
+    min_las_beam: 4.0
+  diffuse_extended:
+    min_las_beam: 6.0
+  linear_or_tail_like:
+    min_axis_ratio: 2.0
+  complex_association:
+    min_components: 5
+  weak_association:
+    max_quality: low
+  artifact_risk:
+    enabled: true
+
+parent_seed_selection:
+  enabled: true
+  min_parent_seed_peak_snr: 8.0
+  min_parent_seed_area_3sigma_beam: 2.0
+  min_endpoint_n_gaussians: 2
+  min_endpoint_las_beam: 3.0
+  min_endpoint_mask_area_beam: 3.0
+  max_box_gap_beam: 10.0
+  strong_box_gap_beam: 5.0
+  max_parent_candidates_per_group: 1
+  max_parent_candidates_per_cutout: 10
+
+host_support:
+  enabled: true
+  require_host_for_parent_link: true
+  catalog_priority: [catwise2020, allwise]
+  min_search_radius_arcsec: 10.0
+  max_search_radius_arcsec: 30.0
+  search_radius_fraction_of_sep: 0.12
+  max_host_results_per_query: 20
+  host_score_weight: 1.0
+  min_host_quality_for_default_candidate: medium
+
+parent_linking:
+  enabled: true
+  max_box_gap_beam: 12.0
+  max_center_distance_beam: 40.0
+  min_axis_alignment: 0.7
+  min_facing_score: 0.6
+  max_flux_ratio: 20.0
+  max_size_ratio: 8.0
+  min_symmetry_score: 0.6
+  artifact_veto_score: 1.2
+  artifact_suspicious_score: 0.8
+  bright_source_near_beam: 8.0
+  bright_source_radial_min: 0.72
+  bright_source_flux_ratio_min: 5.0
+  fragment_density_radius_beam: 8.0
+  fragment_count_artifact: 12
+  lobe_peak_host_radius_arcsec_min: 5.0
+  lobe_peak_host_radius_arcsec_max: 10.0
+  max_parent_candidates_per_group: 2
+  max_parent_candidates_per_cutout: 20
+
+ablation:
+  use_multithreshold_contour: true
+  use_ridge_continuity: true
+  use_ellipse_overlap: true
+  use_pa_alignment: true
+  use_weak_edge_anti_chaining: true
+  use_artifact_penalties_layer1: true
+  use_artifact_penalties_layer2: true
+  use_midpoint_host_support: true
+  use_lobe_peak_host_contradiction: true

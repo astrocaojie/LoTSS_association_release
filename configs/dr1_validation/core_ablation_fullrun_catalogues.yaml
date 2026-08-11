@@ -1,0 +1,52 @@
+reference:
+  dr1_catalogue: data/dr1/lotss_dr1_component_catalogue.csv.gz
+  reference_policy: lotss_dr1_component_catalogue_only_no_optical_ids
+  support_definition: dr1_component_inside_predicted_radio_bbox
+  footprint_grid_size_deg: 0.25
+  flux_cuts_jy: [0.0, 0.05, 0.1]
+  random_shifts_ra_dec_deg:
+    - [1.0, 0.0]
+    - [-1.0, 0.0]
+    - [0.0, 1.0]
+    - [0.0, -1.0]
+    - [1.0, 1.0]
+    - [-1.0, -1.0]
+    - [2.0, 0.0]
+    - [0.0, 2.0]
+
+outputs:
+  root: outputs/dr1_validation/ablation_core6/formal_fullrun_eval
+
+catalogues:
+  full_method:
+    predictions: outputs/dr1_core6_ablation/full_method/dr1_validation/full_method_predictions.csv.gz
+  no_ridge_continuity:
+    predictions: outputs/dr1_core6_ablation/no_ridge_continuity/dr1_validation/no_ridge_continuity_predictions.csv.gz
+  no_weak_edge_anti_chaining:
+    predictions: outputs/dr1_core6_ablation/no_weak_edge_anti_chaining/dr1_validation/no_weak_edge_anti_chaining_predictions.csv.gz
+  no_artifact_penalties:
+    predictions: outputs/dr1_core6_ablation/no_artifact_penalties/dr1_validation/no_artifact_penalties_predictions.csv.gz
+  no_host_support:
+    predictions: outputs/dr1_core6_ablation/no_host_support/dr1_validation/no_host_support_predictions.csv.gz
+  no_lobe_peak_host_contradiction:
+    predictions: outputs/dr1_core6_ablation/no_lobe_peak_host_contradiction/dr1_validation/no_lobe_peak_host_contradiction_predictions.csv.gz
+
+variants:
+  - name: full_method
+    ablation: {}
+  - name: no_ridge_continuity
+    ablation:
+      use_ridge_continuity: false
+  - name: no_weak_edge_anti_chaining
+    ablation:
+      use_weak_edge_anti_chaining: false
+  - name: no_artifact_penalties
+    ablation:
+      use_artifact_penalties_layer1: false
+      use_artifact_penalties_layer2: false
+  - name: no_host_support
+    ablation:
+      use_midpoint_host_support: false
+  - name: no_lobe_peak_host_contradiction
+    ablation:
+      use_lobe_peak_host_contradiction: false

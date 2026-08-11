@@ -1,0 +1,35 @@
+reference:
+  dr1_catalogue: data/dr1/lotss_dr1_component_catalogue.csv.gz
+  reference_policy: lotss_dr1_component_catalogue_only_no_optical_ids
+  support_definition: dr1_component_inside_predicted_radio_bbox
+  footprint_grid_size_deg: 0.25
+  flux_cuts_jy: [0.0, 0.05, 0.1]
+
+outputs:
+  root: outputs/dr1_validation/baselines
+
+baselines:
+  B0:
+    name: native_pybdsf_island_membership
+    bbox_policy: union_of_native_island_member_gaussian_bboxes
+  B1:
+    name: contour_connectivity_3sigma
+    bbox_policy: union_of_3sigma_connected_components
+  B2:
+    name: contour_connectivity_2sigma
+    bbox_policy: union_of_2sigma_connected_components
+  B3:
+    name: distance_only_grouping
+    bbox_policy: union_of_distance_group_member_gaussian_bboxes
+  B4:
+    name: unconstrained_graph_clustering
+    bbox_policy: union_of_connected_component_member_gaussian_bboxes
+  B5:
+    name: nearest_neighbour_chain_grouping
+    bbox_policy: union_of_nearest_neighbour_chain_member_gaussian_bboxes
+  B6:
+    name: simple_lobe_pair_geometry
+    bbox_policy: radio_geometry_parent_bbox_without_host_support
+  B7:
+    name: host_midpoint_only
+    bbox_policy: midpoint_host_triggered_parent_bbox_without_full_radio_geometry

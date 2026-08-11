@@ -1,0 +1,296 @@
+h5:
+  image_key: null
+  rms_key: null
+  mean_key: null
+  id_key: null
+  ra_key: null
+  dec_key: null
+  wcs_key: null
+
+snr_thresholds: [5.0, 4.0, 3.0, 2.5, 2.0]
+
+mean_mode: "median"
+rms_mode: "mad"
+
+smooth_before_segmentation: true
+gaussian_smooth_sigma_pix: 1.0
+
+min_mask_area_pix: 30
+connectivity: 2
+binary_opening: false
+binary_closing: true
+
+max_pair_distance_arcsec: 120.0
+max_pair_distance_beam: 15.0
+
+merge_threshold: 3.0
+
+association:
+  enabled: true
+
+  max_pair_distance_beam: 15.0
+
+  threshold_strong: 3.0
+  threshold_weak: 2.0
+
+  use_connected_components_for_strong_edges: true
+  weak_edges_attach_only: true
+
+  min_bridge_width_beam: 0.8
+  min_bridge_length_beam: 1.0
+  max_only_2sigma_score: 0.5
+
+  quality_thresholds:
+    high: 3.5
+    medium: 2.5
+    low: 1.5
+
+weights_association:
+  closeness: 1.0
+  overlap: 1.0
+  pa_alignment: 0.8
+  conn_3sigma: 1.5
+  conn_2p5sigma: 0.6
+  conn_2sigma: 0.0
+  bridge: 1.2
+  ridge: 1.2
+  flux_continuity: 0.5
+  flow_alignment: 0.6
+
+  valley: 1.5
+  only_2sigma: 1.0
+  negative_bowl: 1.2
+  sidelobe: 1.5
+  too_far: 2.0
+  large_mask_swallow: 1.5
+
+association_types:
+  compact_multi_gaussian:
+    max_las_beam: 4.0
+  continuous_extended:
+    min_las_beam: 4.0
+  diffuse_extended:
+    min_las_beam: 6.0
+  linear_or_tail_like:
+    min_axis_ratio: 2.0
+  complex_association:
+    min_components: 5
+  weak_association:
+    max_quality: "low"
+  artifact_risk:
+    enabled: true
+
+local_association:
+  enabled: true
+
+  local_sanity:
+    enabled: true
+
+    max_group_las_beam_before_check: 8.0
+    max_group_n_gaussians_before_check: 6
+
+    min_saddle_to_peak_ratio: 0.35
+    max_ridge_gap_fraction: 0.35
+    max_weak_edge_chain_fraction: 0.50
+    max_only_2sigma_edge_fraction: 0.25
+
+    split_overmerged_groups: true
+    mark_suspicious_if_unsplittable: true
+
+    min_subgroup_size: 1
+    min_split_score_gain: 0.5
+
+  parent_association:
+    enabled: true
+
+    max_parent_distance_beam: 40.0
+    min_large_scale_distance_beam: 10.0
+    min_large_scale_distance_arcsec: 60.0
+
+    threshold_parent_high: 4.0
+    threshold_parent_medium: 3.2
+    threshold_parent_low: 2.5
+
+    allow_no_bridge: true
+    require_geometry_support: true
+
+    max_flux_ratio: 20.0
+    max_size_ratio: 10.0
+
+    midpoint_core_search_radius_beam: 3.0
+    parent_weak_edges_attach_only: true
+
+    prevent_parent_chaining: true
+    max_parent_group_members: 4
+
+  weights_parent:
+    axis_alignment: 1.5
+    facing_score: 1.2
+    midpoint_symmetry: 1.0
+    flux_ratio: 0.7
+    size_ratio: 0.6
+    lobe_like: 1.0
+    host_or_core_between: 1.2
+    weak_bridge: 0.3
+
+    crowded_penalty: 1.5
+    artifact_penalty: 1.5
+    too_far_penalty: 2.0
+    one_sided_chain_penalty: 1.2
+    unrelated_interloper_penalty: 1.5
+
+parent_seed_selection:
+  enabled: true
+  refined: true
+  max_box_gap_beam: 10.0
+  strong_box_gap_beam: 5.0
+  min_endpoint_las_beam: 3.0
+  min_endpoint_mask_area_beam: 3.0
+  min_endpoint_n_gaussians: 2
+  min_parent_seed_peak_snr: 8.0
+  min_parent_seed_area_3sigma_beam: 2.0
+  max_parent_candidates_per_group: 1
+  max_parent_candidates_per_cutout: 10
+
+  thresholds:
+    high_score: 4.0
+    medium_score: 3.2
+
+  evidence:
+    axis_alignment_min: 0.7
+    facing_min: 0.6
+    max_flux_ratio: 10.0
+    max_size_ratio: 5.0
+
+host_support:
+  enabled: true
+  require_host_for_parent_link: true
+  catalog_priority: ["catwise2020", "allwise"]
+
+  min_search_radius_arcsec: 10.0
+  max_search_radius_arcsec: 30.0
+  search_radius_fraction_of_sep: 0.12
+
+  max_host_results_per_query: 20
+  host_score_weight: 1.0
+  min_host_quality_for_default_candidate: "medium"
+
+  host_quality_thresholds:
+    high: 3.0
+    medium: 2.0
+
+  geometry:
+    high_max_perp_offset_beam: 1.5
+    medium_max_perp_offset_beam: 2.0
+    high_fractional_position_min: 0.35
+    high_fractional_position_max: 0.65
+    medium_fractional_position_min: 0.25
+    medium_fractional_position_max: 0.75
+
+  wise_color:
+    agn_bonus_w1_w2_min: 0.8
+    agn_bonus: 0.5
+    require_agn_color: false
+
+lobe_recovery_parent_linking:
+  enabled: true
+  max_lobe_recovery_box_gap_beam: 12.0
+  max_lobe_recovery_center_distance_beam: 40.0
+  min_lobe_axis_alignment: 0.65
+  max_lobe_flux_ratio: 20.0
+  max_lobe_size_ratio: 10.0
+
+  min_lobe_seed_peak_snr: 6.0
+  min_lobe_seed_area_3sigma_beam: 1.5
+  min_lobe_seed_las_beam: 3.0
+  min_lobe_seed_major_axis_beam: 2.0
+  min_lobe_seed_axis_ratio: 1.5
+
+  max_parent_candidates_per_group: 2
+  max_parent_candidates_per_cutout: 20
+
+lobe_first_host_second_parent_linking:
+  enabled: true
+  max_box_gap_beam: 12.0
+  max_center_distance_beam: 40.0
+  min_axis_alignment: 0.7
+  min_facing_score: 0.6
+  max_flux_ratio: 20.0
+  max_size_ratio: 8.0
+  max_parent_candidates_per_group: 2
+  max_parent_candidates_per_cutout: 20
+
+parent_linking:
+  enabled: true
+  max_box_gap_beam: 12.0
+  max_center_distance_beam: 40.0
+  min_axis_alignment: 0.7
+  min_facing_score: 0.6
+  max_flux_ratio: 20.0
+  max_size_ratio: 8.0
+  min_symmetry_score: 0.6
+
+  artifact_veto_score: 1.2
+  artifact_suspicious_score: 0.8
+  bright_source_near_beam: 8.0
+  bright_source_radial_min: 0.72
+  bright_source_flux_ratio_min: 5.0
+  fragment_density_radius_beam: 8.0
+  fragment_count_artifact: 12
+
+  lobe_peak_host_radius_arcsec_min: 5.0
+  lobe_peak_host_radius_arcsec_max: 10.0
+
+  max_parent_candidates_per_group: 2
+  max_parent_candidates_per_cutout: 20
+
+weights:
+  same_island: 0.0
+  conn_3sigma: 2.0
+  conn_2p5sigma: 1.0
+  conn_2sigma: 0.3
+  bridge: 1.0
+  overlap: 0.8
+  closeness: 0.8
+  pa_alignment: 0.7
+  pixel_support: 0.8
+  valley: 1.5
+  compact_pair: 1.0
+  too_far: 2.5
+
+beam:
+  major_arcsec: 6.0
+  minor_arcsec: 6.0
+  pa_deg: 0.0
+
+visualization:
+  stretch: "asinh"
+  percent_clip: [1, 99.5]
+
+  overview:
+    draw_all_labels: false
+    draw_singletons: false
+    label_min_components: 2
+    max_labels: 30
+    label_top_by: "LAS_arcsec"
+    draw_gaussian_ids: false
+    draw_component_ids: false
+    max_gaussians_drawn: 500
+    gaussian_marker_size: 4
+    max_edges_drawn: 300
+    draw_nonmerged_edges: false
+    edge_min_score: null
+    contour_thresholds: [2.5, 3.0]
+
+  zoom:
+    enabled: true
+    max_zoom_per_cutout: 20
+    select_min_components: 2
+    select_top_las: 10
+    select_top_confidence: 10
+    padding_pix: 100
+    min_size_pix: 256
+    max_size_pix: 1024
+    contour_thresholds: [2.0, 2.5, 3.0, 5.0]
+    draw_gaussian_ids: true
+    draw_edge_scores: true

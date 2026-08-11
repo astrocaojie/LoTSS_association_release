@@ -1,0 +1,55 @@
+reference:
+  dr1_catalogue: data/dr1/lotss_dr1_component_catalogue.csv.gz
+  reference_policy: lotss_dr1_component_catalogue_only_no_optical_ids
+  support_definition: dr1_component_inside_predicted_radio_bbox
+  footprint_grid_size_deg: 0.25
+  flux_cuts_jy: [0.0, 0.05, 0.1]
+
+outputs:
+  root: outputs/dr1_validation/ablation
+
+variants:
+  A0:
+    name: full_method
+    ablation: {}
+  A1:
+    name: no_ridge_continuity
+    ablation:
+      use_ridge_continuity: false
+  A2:
+    name: no_weak_edge_anti_chaining
+    ablation:
+      use_weak_edge_anti_chaining: false
+  A3:
+    name: no_artifact_penalties
+    ablation:
+      use_artifact_penalties_layer1: false
+      use_artifact_penalties_layer2: false
+  A4:
+    name: no_host_support
+    ablation:
+      use_midpoint_host_support: false
+  A5:
+    name: no_lobe_peak_host_contradiction
+    ablation:
+      use_lobe_peak_host_contradiction: false
+  A6:
+    name: no_pa_alignment
+    ablation:
+      use_pa_alignment: false
+  A7:
+    name: no_ellipse_overlap
+    ablation:
+      use_ellipse_overlap: false
+  A8:
+    name: no_multithreshold_contour_connectivity
+    ablation:
+      use_multithreshold_contour: false
+  A9:
+    name: no_stage2_relative_scale_constraints
+    ablation:
+      use_stage2_relative_scale_constraints: false
+  A10:
+    name: no_stage2_endpoint_filtering
+    ablation:
+      use_stage2_endpoint_filtering: false

@@ -1,0 +1,131 @@
+h5:
+  image_key: null
+  rms_key: null
+  mean_key: null
+  id_key: null
+  ra_key: null
+  dec_key: null
+  wcs_key: null
+
+snr_thresholds: [5.0, 4.0, 3.0, 2.5, 2.0]
+
+mean_mode: "median"
+rms_mode: "mad"
+
+smooth_before_segmentation: true
+gaussian_smooth_sigma_pix: 1.0
+
+min_mask_area_pix: 20
+connectivity: 2
+binary_opening: false
+binary_closing: true
+
+max_pair_distance_arcsec: 180.0
+max_pair_distance_beam: 20.0
+
+merge_threshold: 2.5
+
+association:
+  enabled: true
+  max_pair_distance_beam: 15.0
+  threshold_strong: 3.0
+  threshold_weak: 2.0
+  use_connected_components_for_strong_edges: true
+  weak_edges_attach_only: true
+  min_bridge_width_beam: 0.8
+  min_bridge_length_beam: 1.0
+  max_only_2sigma_score: 0.5
+  enable_beam_aware_morphology: true
+  enable_unresolved_pair_veto: true
+  enable_residual_bridge: true
+  residual_bridge_threshold_snr: 2.5
+  residual_bridge_min_length_fraction: 0.45
+  residual_bridge_min_area_beams: 0.25
+  residual_bridge_min_score: 0.55
+  residual_bridge_endpoint_exclusion_beam: 0.6
+  unresolved_veto_beam_like_score: 0.70
+  unresolved_veto_min_bridge_score: 0.70
+  unresolved_veto_min_residual_bridge_score: 0.55
+  unresolved_veto_min_common_envelope_area_beam: 1.0
+  veto_score_cap: -1.0
+  quality_thresholds:
+    high: 3.5
+    medium: 2.5
+    low: 1.5
+
+weights_association:
+  closeness: 1.0
+  overlap: 1.0
+  pa_alignment: 0.8
+  conn_3sigma: 1.5
+  conn_2p5sigma: 0.6
+  conn_2sigma: 0.0
+  bridge: 1.2
+  ridge: 1.2
+  flux_continuity: 0.5
+  flow_alignment: 0.6
+  valley: 1.5
+  only_2sigma: 1.0
+  negative_bowl: 1.2
+  sidelobe: 1.5
+  too_far: 2.0
+  large_mask_swallow: 1.5
+
+association_types:
+  compact_multi_gaussian:
+    max_las_beam: 4.0
+  continuous_extended:
+    min_las_beam: 4.0
+  diffuse_extended:
+    min_las_beam: 6.0
+  linear_or_tail_like:
+    min_axis_ratio: 2.0
+  complex_association:
+    min_components: 5
+  weak_association:
+    max_quality: "low"
+  artifact_risk:
+    enabled: true
+
+beam_aware_classification:
+  beam_like_axis_ratio_tolerance: 0.35
+  beam_like_size_tolerance: 0.35
+  beam_like_pa_tolerance_deg: 20.0
+  beam_like_score_unresolved: 0.70
+  resolved_deconv_major_fraction: 0.45
+  resolved_deconv_minor_fraction: 0.35
+  marginal_deconv_major_fraction: 0.20
+  intrinsic_resolved_fraction: 0.35
+  intrinsic_marginal_fraction: 0.15
+  low_snr_threshold: 5.0
+  pa_weight_unresolved: 0.0
+  pa_weight_beam_like: 0.0
+  pa_weight_marginal: 0.35
+  pa_weight_resolved: 1.0
+  pa_weight_unknown: 0.15
+
+weights:
+  same_island: 1.0
+  conn_3sigma: 2.0
+  conn_2p5sigma: 1.5
+  conn_2sigma: 1.0
+  bridge: 1.0
+  overlap: 0.8
+  closeness: 0.8
+  pa_alignment: 0.7
+  pixel_support: 0.8
+  valley: 1.2
+  compact_pair: 1.0
+  too_far: 2.0
+
+beam:
+  major_arcsec: 6.0
+  minor_arcsec: 6.0
+  pa_deg: 0.0
+
+visualization:
+  stretch: "asinh"
+  percent_clip: [1, 99.5]
+  draw_gaussian_ellipses: true
+  draw_graph_edges: true
+  draw_segmentation_contours: true
