@@ -38,8 +38,8 @@ artifact penalties, and optional WISE/CatWISE host evidence.
 ## Installation
 
 ```bash
-git clone <repo-url> LoTSS_association
-cd LoTSS_association
+git clone https://github.com/astrocaojie/LoTSS_association_release.git
+cd LoTSS_association_release
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
