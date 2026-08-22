@@ -31,10 +31,10 @@ and attributes. The IO module searches for common dataset names:
 The H5 structure is not hard-coded. If automatic detection is ambiguous or
 wrong, the user can set explicit keys under `h5:` in the YAML config.
 
-The first implementation supports the common cases where images are stored as a
-single 2-D dataset or as an N x H x W dataset. It also supports metadata arrays
-indexed by cutout. More exotic layouts should still be inspectable, but may need
-explicit config keys or later adapters.
+The current reader supports the common cases where images are stored as a single
+2-D dataset or as an N x H x W dataset. It also supports metadata arrays indexed
+by cutout. More exotic layouts should still be inspectable, but may need
+explicit config keys or dedicated adapters.
 
 ## 3. Gaussian Catalog Reading Strategy
 
@@ -64,9 +64,9 @@ Three modes are supported:
 3. **Fallback mode**: if no WCS or pixel coordinate information exists, run
    segmentation-only processing and record that Gaussian matching was skipped.
 
-The first version implements sky-coordinate matching and a lightweight pixel
-coordinate path for tables with x/y columns. External metadata catalogs can be
-added later without changing the downstream graph interface.
+The release supports sky-coordinate matching and a lightweight pixel-coordinate
+path for tables with x/y columns. External metadata catalogs can be added
+without changing the downstream graph interface.
 
 ## 5. S/N Map Construction Strategy
 
@@ -178,8 +178,8 @@ For each connected component:
 - flag multi-peak, bent, and double-lobe candidates,
 - compute a confidence score from edge evidence and source measurements.
 
-The first version is intentionally conservative. Measurements are useful for
-ranking and inspection, not for final science-quality photometry.
+The release is intentionally conservative. Measurements are useful for ranking
+and inspection, not for final science-quality photometry.
 
 ## 9. Output Catalog Fields
 

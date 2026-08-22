@@ -1,8 +1,8 @@
 # Beam-Aware Radio Component Association Strategy
 
-## New Goal
+## Purpose
 
-The current project goal is PyBDSF Gaussian component association.
+This stage performs PyBDSF Gaussian component association.
 
 A PyBDSF Gaussian component is treated as a local mathematical description of
 radio emission, not as a final physical source by itself. The pipeline builds
@@ -16,7 +16,8 @@ Core objects:
   emission structure
 - `association group`: a set of related Gaussian components
 
-This stage does not train machine learning models.
+No statistical classifier is trained in this stage; the output is produced by
+explicit evidence rules and diagnostic thresholds.
 
 ## Why SExtractor Cannot Be Copied Directly
 
@@ -46,8 +47,8 @@ Multi-threshold segmentation remains useful as morphology evidence:
 - 3 sigma and 2.5 sigma connectivity are more credible than 2 sigma
 - it provides masks for diagnostic measurements and visual review
 
-The rule is deliberately conservative: segmentation can support an association,
-but it cannot decide the association by itself.
+The rule is conservative: segmentation can support an association, but low-S/N
+connectivity is not used as a sufficient condition by itself.
 
 ## Evidence System
 

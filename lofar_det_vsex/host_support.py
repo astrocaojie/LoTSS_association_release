@@ -1,4 +1,4 @@
-"""host-supported parent-linking host-gated parent-link candidates."""
+"""Host-catalogue support for parent-link candidates."""
 
 from __future__ import annotations
 
@@ -20,6 +20,8 @@ from .parent_seed import (
 from .utils import json_dumps_safe, safe_float
 
 
+# host 支持阶段只给 parent 候选补充宿主星系诊断信息；
+# 候选本身仍来自上一层的射电几何和 parent-seed 结果。
 HOST_SUPPORTED_CANDIDATE_COLUMNS = [
     "cutout_id",
     "parent_candidate_id",
@@ -232,6 +234,8 @@ def score_host_candidates(
     thresholds = cfg["host_quality_thresholds"]
     records: list[dict[str, Any]] = []
     for _, host in raw_hosts.iterrows():
+        # 对每个候选宿主同时记录“离中点多近”和“是否沿双瓣轴线”；
+        # 后续人工复核可据此区分真正的中点宿主和偶然落在搜索半径内的红外源。
         host_ra = safe_float(host.get("host_ra"), float("nan"))
         host_dec = safe_float(host.get("host_dec"), float("nan"))
         if not np.all(np.isfinite([host_ra, host_dec])):
@@ -375,6 +379,8 @@ def run_host_support(
         )
     geometry_mask = edges["rejection_reason"].fillna("").astype(str).eq("") | edges["parent_candidate_quality"].astype(str).isin(["high", "medium", "low"])
     for _, edge in edges[geometry_mask].iterrows():
+        # 只对已通过几何筛选或仍有诊断价值的 parent pair 查询 host；
+        # 这样可以限制外部 catalogue 查询量，并保留 query log 供复现。
         parent = edge.copy()
         midpoint_ra, midpoint_dec = _midpoint_ra_dec(parent, group_by_id)
         parent["midpoint_ra"] = midpoint_ra

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Run the rule-based LoTSS Vsex extended-source pipeline."""
+"""Run the rule-based LoTSS Association pipeline."""
 
 from __future__ import annotations
 
@@ -115,7 +115,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--config", default=str(PROJECT_ROOT / "configs/default.yaml"))
     parser.add_argument("--output-dir", default=str(PROJECT_ROOT / "outputs"))
-    parser.add_argument("--n-workers", type=int, default=1, help="Accepted for CLI compatibility; first version runs sequentially")
+    parser.add_argument("--n-workers", type=int, default=1, help="Accepted for CLI compatibility; this entry point runs sequentially")
     parser.add_argument("--start-index", type=int, default=0)
     parser.add_argument("--end-index", type=int, default=None)
     parser.add_argument("--limit", type=int, default=None)

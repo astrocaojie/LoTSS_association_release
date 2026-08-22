@@ -1,6 +1,7 @@
 # Algorithm Notes
 
-This project builds a rule-based extended-source detector for LoTSS cutouts.
+This project builds a rule-based extended-source association pipeline for LoTSS
+cutouts.
 The central design choice is that PyBDSF Gaussian components are treated as
 candidate parts, not as final physical radio sources. Low-threshold
 SExtractor-style segmentation supplies evidence about diffuse radio continuity,
@@ -132,7 +133,7 @@ project uses the idea in reverse:
 
 In short: high thresholds identify parts; low thresholds provide merge evidence.
 
-## 7. First-Version Rule-Based Merge Features
+## 7. Rule-Based Merge Features
 
 Positive evidence:
 
@@ -155,15 +156,15 @@ Negative evidence:
 - excessive separation,
 - position-angle misalignment.
 
-The first version computes a weighted `merge_score` and links two components
-when `merge_score > merge_threshold`. Final merged sources are graph connected
+The release computes a weighted `merge_score` and links two components when
+`merge_score > merge_threshold`. Final merged sources are graph connected
 components.
 
 ## 8. Known Limitations
 
-- Fully disconnected FRII lobes cannot be solved by radio bridge evidence alone.
-  The first version includes a simple double-lobe candidate flag, but true host
-  association is a later step.
+- Fully disconnected FRII lobes cannot be solved by radio bridge evidence
+  alone. The parent-linking stage records candidate large-scale associations
+  for visual review and validation.
 - Bright-source artifacts and negative bowls can mislead low-threshold
   segmentation.
 - H5 files may not contain WCS. In that case sky-coordinate matching is not
@@ -171,5 +172,5 @@ components.
   coordinates.
 - PyBDSF Gaussian catalog columns are not completely standardized across
   exports. The code must warn on missing fields and degrade gracefully.
-- A rule-based merge score is interpretable but not calibrated. It should be
-  validated visually and tuned on known LoTSS examples before large-scale use.
+- A rule-based merge score is interpretable, but the numerical thresholds are
+  survey-specific. They should be validated and frozen before large-scale use.

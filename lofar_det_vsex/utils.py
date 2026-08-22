@@ -1,4 +1,4 @@
-"""Shared utilities for the LoTSS Vsex pipeline."""
+"""Shared utilities for the LoTSS Association pipeline."""
 
 from __future__ import annotations
 

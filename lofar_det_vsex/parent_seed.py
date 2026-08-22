@@ -153,8 +153,8 @@ def parent_seed_config(config: dict[str, Any]) -> dict[str, Any]:
     out["thresholds"].update(raw.get("thresholds", {}) or {})
     out["evidence"] = dict(defaults["evidence"])
     out["evidence"].update(raw.get("evidence", {}) or {})
-    # Refined mode must be conservative even if an older config still contains
-    # the parent-seed baseline caps.
+    # 这里强制使用保守的候选数量上限；即使配置文件里残留更宽松的调试参数，
+    # release 路径也不会让 parent seed 阶段产生过多候选。
     out["max_parent_candidates_per_group"] = int(raw.get("max_parent_candidates_per_group", 1))
     out["max_parent_candidates_per_cutout"] = int(raw.get("max_parent_candidates_per_cutout", 10))
     return out
@@ -422,6 +422,8 @@ def build_parent_seed_table(
     bad_quality = {"low", "suspicious", "artifact_risk"}
     bad_type = {"weak_association", "artifact_risk"}
     for _, row in groups.iterrows():
+        # parent seed 表先判断每个 local group 能否作为大尺度双瓣端点；
+        # 点源、低信噪比或伪影风险组会保留诊断原因，但不会默认进入 parent 候选。
         work = row.copy()
         if "pixel_scale_arcsec" not in work:
             work["pixel_scale_arcsec"] = safe_float(groups.get("pixel_scale_arcsec", pd.Series([1.5])).iloc[0], 1.5) if not groups.empty else 1.5
@@ -509,6 +511,8 @@ def _candidate_search_pairs(groups: pd.DataFrame, max_gap_pix: float) -> list[tu
     debug_gap_pix = 1.5 * max_gap_pix
     seen: set[tuple[int, int]] = set()
     for local_i, original_i in enumerate(valid_indices):
+        # KD-tree 先用中心距快速召回候选，再用 robust bbox gap 精筛；
+        # 这样 crowded cutout 中不会因为全配对而产生大量无意义 parent pair。
         radius = debug_gap_pix + half_diags_arr[local_i] + max_half_diag + 1.0
         for local_j in tree.query_ball_point(centers_arr[local_i], radius):
             if local_j <= local_i:
@@ -804,6 +808,7 @@ def run_parent_seed(
     max_gap_pix = float(cfg.get("max_box_gap_beam", 10.0)) * beam_arcsec / max(pixel_scale, 1e-6)
     records: list[dict[str, Any]] = []
     for pair_index, (idx_i, idx_j) in enumerate(_candidate_search_pairs(groups, max_gap_pix)):
+        # 每个 pair 只计算一次几何、尺度和端点证据；后续 host 支持阶段不会重新定义这些射电证据。
         group_i = groups.iloc[idx_i]
         group_j = groups.iloc[idx_j]
         seed_i = seed_by_id.get(str(group_i.get("association_group_id")), pd.Series(dtype=object))

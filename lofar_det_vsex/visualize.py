@@ -1,4 +1,4 @@
-"""Readable overview and zoom visualizations for Vsex outputs."""
+"""Readable overview and zoom visualizations for association outputs."""
 
 from __future__ import annotations
 

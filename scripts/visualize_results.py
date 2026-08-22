@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Redraw Vsex figures from existing catalogs and segmentation products."""
+"""Redraw association figures from existing catalogs and segmentation products."""
 
 from __future__ import annotations
 

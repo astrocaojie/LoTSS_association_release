@@ -10,16 +10,24 @@ does not require a machine-learning model: decisions are based on beam-aware
 geometry, multi-threshold radio-contour support, ridge and bridge continuity,
 artifact penalties, and optional WISE/CatWISE host evidence.
 
-## Features
+The input graph starts from PyBDSF Gaussian components, not from the PyBDSF
+source catalogue. Existing PyBDSF source identifiers can be preserved for
+diagnostics, but the association decisions are rebuilt from component geometry,
+image support, and validation rules in this repository.
 
-- Local Gaussian-component association for H5 cutouts or FITS-derived cutouts.
-- Physics-aware parent-link candidates for large separated radio structures.
-- Optional host-query support through WISE/CatWISE catalogues.
-- DR1 component-reference validation utilities and baseline comparisons.
-- Lightweight tests that exercise clustering, scoring, contour assignment, and
-  validation metrics without requiring large survey products.
+## Method Overview
 
-## Repository Layout
+1. Read LoTSS cutouts or FITS-derived cutouts and match PyBDSF Gaussian
+   components into each image.
+2. Build beam-normalized pairwise evidence between Gaussian components,
+   including distance, morphology, multi-threshold contour connectivity,
+   bridge/ridge support, and artifact penalties.
+3. Form conservative local association groups from strong edges, with weak
+   edges used only as limited attachments.
+4. Propose parent-scale candidates for large separated systems and record the
+   evidence needed for visual review and validation.
+
+## Repository Layout and Entry Points
 
 - `lofar_det_vsex/`: reusable package modules for IO, segmentation,
   association, parent-linking, validation, plotting, and utilities.
@@ -32,14 +40,23 @@ artifact penalties, and optional WISE/CatWISE host evidence.
 - `scripts/hpc/`: SLURM templates for larger survey runs.
 - `configs/real_lotss_conservative.yaml`: recommended conservative
   configuration.
-- `docs/`: methodology and release notes.
+- `docs/`: method notes and release notes.
 - `tests/`: unit tests for the reusable pipeline components.
+
+The most useful documentation files are:
+
+- `docs/association_strategy.md`: local Gaussian-component association logic.
+- `docs/parent_association.md`: parent-linking candidate stage and outputs.
+- `docs/algorithm_notes.md`: background on PyBDSF components, segmentation,
+  and graph-based grouping.
+- `docs/design.md`: input handling, catalogue fields, and visualization
+  conventions.
 
 ## Installation
 
 ```bash
-git clone https://github.com/astrocaojie/LoTSS_association_release.git
-cd LoTSS_association_release
+git clone https://github.com/astrocaojie/LoTSS_association.git LoTSS_association
+cd LoTSS_association
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
@@ -62,6 +79,10 @@ For a normal association run, provide:
 Large FITS/H5/catalogue products are intentionally not committed. Store local
 data under `data/` or pass paths explicitly on the command line.
 
+For reproducible runs, keep the command line, YAML configuration, image
+manifest, Gaussian-catalogue manifest, and validation reference manifest next
+to the output catalogues.
+
 ## Quick Run
 
 ```bash
@@ -83,6 +104,11 @@ Main outputs are written under `outputs/example_association/catalogs/`:
 - `radio_association_components.csv` and `.parquet`
 - `lofar_det_vsex_merged_sources.csv` and `.parquet`
 
+`radio_association_edges` is the main diagnostic table: it records the positive
+and negative evidence for each tested component pair. `radio_association_groups`
+is the recommended catalogue for science use after validation and visual
+quality control.
+
 ## Full LoTSS DR3 Run
 
 The production wrapper scans image roots, finds or records PyBDSF catalogues,
@@ -102,7 +128,21 @@ python scripts/run_lotss_dr3_full.py \
 
 Example environment variables are provided in `examples/paths.example.env`.
 
-## Validation
+## Parent-Linking
+
+Parent-linking is a candidate stage for large separated radio systems. It does
+not rewrite the local Gaussian groups. The main outputs are:
+
+- `large_scale_parent_candidates.csv`
+- `large_scale_parent_edges.parquet`
+- `parent_link_diagnostics.csv`
+- `needs_visual_check.csv`
+
+WISE/CatWISE host matches are recorded as supporting diagnostics. They should
+be interpreted together with the radio morphology, bridge/ridge evidence,
+artifact flags, and visual review products.
+
+## Validation and Calibration
 
 The DR1 validation path uses the LoTSS DR1 component catalogue as
 radio-component reference support. It does not use DR1 optical-ID tables as
@@ -125,6 +165,9 @@ python scripts/validation/preflight_dr1_full_experiments.py \
   --dr1-catalogue data/dr1/lotss_dr1_component_catalogue.csv.gz
 ```
 
+For full scientific reporting, describe the calibration choices, reference
+sample, and cross-survey limitations in the accompanying paper or release note.
+
 ## Testing
 
 ```bash
@@ -137,8 +180,8 @@ baseline, and validation utilities.
 ## Citation
 
 If you use this code, cite the repository and the associated paper or data
-release. Update `CITATION.cff` with the final author list, DOI, repository URL,
-and paper title before public release.
+release. `CITATION.cff` contains the repository metadata and should be updated
+with the final author list, DOI, and paper title before publication.
 
 ## License
 
