@@ -27,6 +27,7 @@ MORPHOLOGY_CLASSES = {
     "unknown",
 }
 
+# 形态分类不是最终科学标签，而是给 association/parent-linking 提供“能否信任 PA、是否像点源”的证据。
 
 def _classification_config(config: dict[str, Any] | None) -> dict[str, Any]:
     defaults = {
@@ -178,6 +179,7 @@ def intrinsic_axes_from_component(row: pd.Series, config: dict[str, Any] | None 
 def classify_gaussian_component(row: pd.Series, config: dict[str, Any] | None = None) -> dict[str, Any]:
     """Classify a single Gaussian using deconvolved and beam-subtracted shape."""
 
+    # 对未解析或 beam-like 的 Gaussian 降低 PA 权重，避免把噪声拉长方向误当作真实结构方向。
     cfg = _classification_config(config)
     beam_major, beam_minor, _beam_pa = beam_axes_from_config(config)
     obs_major, obs_minor, obs_pa = _observed_axes(row, config)

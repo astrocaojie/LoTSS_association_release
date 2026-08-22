@@ -19,7 +19,7 @@ import networkx as nx
 import pandas as pd
 import yaml
 
-from lofar_det_vsex.ablation.analysis import (
+from lotss_association.ablation.analysis import (
     case_tables,
     config_hash,
     layer1_delta_table,
@@ -32,15 +32,15 @@ from lofar_det_vsex.ablation.analysis import (
     write_case_outputs,
     write_layer1_manual_metrics,
 )
-from lofar_det_vsex.ablation.inventory import write_module_inventory
-from lofar_det_vsex.ablation_config import ABLATION_DEFAULTS
-from lofar_det_vsex.association import run_component_association
-from lofar_det_vsex.baseline_demo.common import group_summary_from_membership, membership_from_clusters, write_method_outputs
-from lofar_det_vsex.baseline_demo.data_loading import load_tile_demo
-from lofar_det_vsex.baseline_demo.neighbour_search import find_candidate_pairs
-from lofar_det_vsex.baseline_demo.reporting import edge_table_hash, write_json
-from lofar_det_vsex.host_query import HostQueryClient
-from lofar_det_vsex.parent_links_endpoint_guarded import (
+from lotss_association.ablation.inventory import write_module_inventory
+from lotss_association.ablation_config import ABLATION_DEFAULTS
+from lotss_association.association import run_component_association
+from lotss_association.baseline_demo.common import group_summary_from_membership, membership_from_clusters, write_method_outputs
+from lotss_association.baseline_demo.data_loading import load_tile_demo
+from lotss_association.baseline_demo.neighbour_search import find_candidate_pairs
+from lotss_association.baseline_demo.reporting import edge_table_hash, write_json
+from lotss_association.host_query import HostQueryClient
+from lotss_association.parent_links_endpoint_guarded import (
     SOURCE_MORPH_TABLE_COLUMNS,
     PARENT_CANDIDATE_COLUMNS,
     PARENT_DIAGNOSTIC_COLUMNS,
@@ -48,7 +48,7 @@ from lofar_det_vsex.parent_links_endpoint_guarded import (
     PARENT_HOST_CANDIDATE_COLUMNS,
     run_parent_links_endpoint_guarded,
 )
-from lofar_det_vsex.utils import ensure_dir, load_yaml, setup_logging, write_dataframe
+from lotss_association.utils import ensure_dir, load_yaml, setup_logging, write_dataframe
 
 
 FULL_VARIANT = "full_method"

@@ -2,6 +2,6 @@
 
 from __future__ import annotations
 
-from lofar_det_vsex.ablation_config import ABLATION_DEFAULTS, ablation_config, ablation_enabled
+from lotss_association.ablation_config import ABLATION_DEFAULTS, ablation_config, ablation_enabled
 
 __all__ = ["ABLATION_DEFAULTS", "ablation_config", "ablation_enabled"]

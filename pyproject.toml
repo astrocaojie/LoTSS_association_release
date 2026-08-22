@@ -12,6 +12,17 @@ license = {text = "MIT"}
 authors = [
   {name = "Cao Jie"}
 ]
+keywords = ["LoTSS", "LOFAR", "radio astronomy", "source association", "PyBDSF"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Astronomy"
+]
 dependencies = [
   "astropy>=5.3",
   "astroquery>=0.4.7",
@@ -35,8 +46,13 @@ pybdsf = [
   "bdsf"
 ]
 
+[project.urls]
+Homepage = "https://github.com/astrocaojie/LoTSS_association"
+Repository = "https://github.com/astrocaojie/LoTSS_association"
+Issues = "https://github.com/astrocaojie/LoTSS_association/issues"
+
 [tool.setuptools.packages.find]
-include = ["lofar_det_vsex*"]
+include = ["lotss_association*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

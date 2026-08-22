@@ -24,7 +24,7 @@ if [[ "${MODE}" == "smoke" ]]; then
     --config "${PROJECT_ROOT}/configs/dr1_validation/core_ablation_variants.yaml" \
     --output-dir "${OUTPUT_ROOT}/core6_formal_eval"
   echo "Smoke/preflight complete: ${OUTPUT_ROOT}"
-  echo "Full run template: MODE=full sbatch --array=0-5 scripts/hpc/submit_dr1_ablation_hpc1_4.sh"
+  echo "Full run example: MODE=full sbatch --array=0-5 scripts/hpc/submit_dr1_ablation_hpc1_4.sh"
   exit 0
 fi
 

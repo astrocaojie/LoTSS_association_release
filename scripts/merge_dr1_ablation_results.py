@@ -17,7 +17,7 @@ def main():
     root=Path(args.output_root); rows=[]; outputs=[]; rejected=[]
     for success in root.glob('runs/*/shards/*/_SUCCESS'):
         sd=success.parent; variant=sd.parents[1].name; shard=sd.name; meta=_read_meta(sd/'run_metadata.json')
-        real=bool(meta.get('real_association_run', False)) and not bool(meta.get('placeholder_adapter_output', True))
+        real=bool(meta.get("real_association_run", False)) and bool(meta.get("association_outputs_verified", False))
         status='success' if real else 'rejected_non_scientific'
         rows.append({'variant':variant,'shard_id':shard,'status':status,'real_association_run':real,'path':str(sd)})
         if not real:

@@ -13,10 +13,10 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 import pandas as pd
 
-from lofar_det_vsex.io import H5CutoutReader
-from lofar_det_vsex.segmentation import load_segmentation
-from lofar_det_vsex.utils import load_yaml, setup_logging
-from lofar_det_vsex.visualize import plot_cutout_all
+from lotss_association.io import H5CutoutReader
+from lotss_association.segmentation import load_segmentation
+from lotss_association.utils import load_yaml, setup_logging
+from lotss_association.visualize import plot_cutout_all
 
 
 def parse_args() -> argparse.Namespace:
@@ -53,13 +53,13 @@ def load_outputs(catalog_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.Data
     association_edges = _read_table(catalog_dir / "radio_association_edges")
     association_groups = _read_table(catalog_dir / "radio_association_groups")
     if not association_groups.empty:
-        components = association_components if not association_components.empty else _read_table(catalog_dir / "lofar_det_vsex_components")
+        components = association_components if not association_components.empty else _read_table(catalog_dir / "lotss_association_components")
         edges = association_edges
         merged = association_groups
         return components, edges, merged
-    components = _read_table(catalog_dir / "lofar_det_vsex_components")
-    edges = _read_table(catalog_dir / "lofar_det_vsex_edges")
-    merged = _read_table(catalog_dir / "lofar_det_vsex_merged_sources")
+    components = _read_table(catalog_dir / "lotss_association_components")
+    edges = _read_table(catalog_dir / "lotss_association_edges")
+    merged = _read_table(catalog_dir / "lotss_association_merged_sources")
     return components, edges, merged
 
 

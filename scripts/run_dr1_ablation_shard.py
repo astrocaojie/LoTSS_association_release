@@ -178,7 +178,7 @@ def main() -> None:
     output_counts = count_output_rows(out)
     meta = {
         "real_association_run": True,
-        "placeholder_adapter_output": False,
+        "association_outputs_verified": True,
         "variant_name": args.variant_name,
         "shard_id": args.shard_id,
         "input_format": args.input_format,

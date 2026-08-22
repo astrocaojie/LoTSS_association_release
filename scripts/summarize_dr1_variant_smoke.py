@@ -24,7 +24,7 @@ for _,m in manifest.iterrows():
     abvals=json.loads(m.ablation_values) if isinstance(m.ablation_values,str) and m.ablation_values else {}
     rows.append({
         'variant_id':m.variant_id,'variant_name':m.variant_name,'run_name':run_name,'shard_id':'shard_0000',
-        'real_association_run':meta.get('real_association_run'),'placeholder_adapter':meta.get('placeholder_adapter_output'),
+        'real_association_run':meta.get('real_association_run'),'association_outputs_verified':meta.get('association_outputs_verified'),
         'pybdsf_reused':meta.get('pybdsf_reused'),'pybdsf_rerun':meta.get('pybdsf_rerun'),
         'disabled_features':';'.join(meta.get('disabled_features',[])),
         'input_manifest_hash':meta.get('input_manifest_hash'),'shard_manifest_hash':meta.get('shard_manifest_hash'),
@@ -49,6 +49,6 @@ for _,m in manifest.iterrows():
 out=ROOT/'validation'; out.mkdir(parents=True,exist_ok=True)
 smoke=pd.DataFrame(rows); smoke.to_csv(out/'all_variants_smoke_summary.csv',index=False)
 pd.DataFrame(triggers).to_csv(out/'ablation_trigger_counts.csv',index=False)
-report={'n_variants':len(smoke),'all_real_runner':bool(smoke.real_association_run.eq(True).all()),'all_not_placeholder':bool(smoke.placeholder_adapter.eq(False).all()),'all_pybdsf_reused':bool(smoke.pybdsf_reused.eq(True).all()),'all_pybdsf_not_rerun':bool(smoke.pybdsf_rerun.eq(False).all()),'same_input_manifest_hash':int(smoke.input_manifest_hash.nunique())==1,'same_shard_manifest_hash':int(smoke.shard_manifest_hash.nunique())==1,'same_input_cutouts':int(smoke.input_cutouts.nunique())==1,'same_input_components':int(smoke.input_components.nunique())==1,'rows':smoke.to_dict(orient='records')}
+report={'n_variants':len(smoke),'all_real_runner':bool(smoke.real_association_run.eq(True).all()),'all_outputs_verified':bool(smoke.association_outputs_verified.eq(True).all()),'all_pybdsf_reused':bool(smoke.pybdsf_reused.eq(True).all()),'all_pybdsf_not_rerun':bool(smoke.pybdsf_rerun.eq(False).all()),'same_input_manifest_hash':int(smoke.input_manifest_hash.nunique())==1,'same_shard_manifest_hash':int(smoke.shard_manifest_hash.nunique())==1,'same_input_cutouts':int(smoke.input_cutouts.nunique())==1,'same_input_components':int(smoke.input_components.nunique())==1,'rows':smoke.to_dict(orient='records')}
 (out/'all_variants_smoke_report.json').write_text(json.dumps(report,indent=2,sort_keys=True,default=str)+'\n')
 print(json.dumps(report,indent=2,sort_keys=True,default=str))

@@ -30,11 +30,11 @@ from scipy.spatial import cKDTree
 from astropy.io import fits
 from astropy.wcs import WCS
 
-from lofar_det_vsex.utils import load_yaml
-from lofar_det_vsex.validation.bbox_support import match_predictions_to_dr1_components
-from lofar_det_vsex.validation.dr1_reference import DEFAULT_DR1_COMPONENT_CSV, load_dr1_component_catalogue
-from lofar_det_vsex.validation.footprint import build_dr1_sky_footprint, filter_predictions_in_footprint
-from lofar_det_vsex.validation.metrics import compute_support_rates
+from lotss_association.utils import load_yaml
+from lotss_association.validation.bbox_support import match_predictions_to_dr1_components
+from lotss_association.validation.dr1_reference import DEFAULT_DR1_COMPONENT_CSV, load_dr1_component_catalogue
+from lotss_association.validation.footprint import build_dr1_sky_footprint, filter_predictions_in_footprint
+from lotss_association.validation.metrics import compute_support_rates
 from scripts.lotss_dr3_common import read_manifest, read_table_any
 from scripts.validation.dr1_ablation_core6_evaluate import _add_bbox_area, _area_diagnostics, _corrected, _shifted_random_rates
 

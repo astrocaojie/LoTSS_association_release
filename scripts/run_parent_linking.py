@@ -15,9 +15,9 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 import pandas as pd
 
-from lofar_det_vsex.host_query import HOST_QUERY_LOG_COLUMNS, HostQueryClient
-from lofar_det_vsex.io import H5CutoutReader
-from lofar_det_vsex.parent_links import (
+from lotss_association.host_query import HOST_QUERY_LOG_COLUMNS, HostQueryClient
+from lotss_association.io import H5CutoutReader
+from lotss_association.parent_links import (
     SOURCE_MORPH_TABLE_COLUMNS,
     PARENT_CANDIDATE_COLUMNS,
     PARENT_DIAGNOSTIC_COLUMNS,
@@ -26,9 +26,9 @@ from lofar_det_vsex.parent_links import (
     run_parent_links,
     parent_link_config,
 )
-from lofar_det_vsex.segmentation import load_segmentation
-from lofar_det_vsex.utils import ensure_dir, load_yaml, setup_logging, write_dataframe
-from lofar_det_vsex.visualize import plot_parent_link_cutout_all
+from lotss_association.segmentation import load_segmentation
+from lotss_association.utils import ensure_dir, load_yaml, setup_logging, write_dataframe
+from lotss_association.visualize import plot_parent_link_cutout_all
 
 
 def parse_args() -> argparse.Namespace:
@@ -215,7 +215,7 @@ def _write_validation_report(path: Path, summary: pd.DataFrame, candidates: pd.D
         "## Acceptance",
         "",
         "- baseline_is_parent_linking: True",
-        "- uses_obsolete_experimental_path_a_obsolete_experimental_path_b_obsolete_experimental_path_c: False",
+        "- uses_non_release_output_paths: False",
         f"- hard_point_source_veto: {row.get('n_hard_point_source_veto', 0)}",
         f"- hard_compact_veto: {row.get('n_hard_compact_veto', 0)}",
         f"- noise_artifact_veto: {row.get('n_noise_artifact_veto', 0)}",
@@ -273,12 +273,12 @@ def main() -> None:
     protected = {
         (PROJECT_ROOT / "outputs_parent_seed_association_test").resolve(),
         (PROJECT_ROOT / "outputs_parent_seed_refined_test").resolve(),
-        (PROJECT_ROOT / "outputs_host_supportd_test").resolve(),
+        (PROJECT_ROOT / "outputs_host_supported_test").resolve(),
         (PROJECT_ROOT / "outputs_lobe_recovery_parent_linking_test").resolve(),
         (PROJECT_ROOT / "outputs_lobe_first_host_second_parent_linking_test").resolve(),
     }
     if output_dir.resolve() in protected:
-        raise SystemExit("production parent-linking must not write to obsolete experimental output directories")
+        raise SystemExit("production parent-linking must not write to protected internal output directories")
     if args.overwrite:
         reset_outputs(output_dir)
     dirs = ensure_output_tree(output_dir)

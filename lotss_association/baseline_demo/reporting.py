@@ -15,8 +15,8 @@ from astropy.io import fits
 from astropy.table import Table
 from astropy.wcs import WCS
 
-from lofar_det_vsex.association import compute_beam_size_arcsec
-from lofar_det_vsex.utils import json_dumps_safe, robust_mad_rms
+from lotss_association.association import compute_beam_size_arcsec
+from lotss_association.utils import json_dumps_safe, robust_mad_rms
 
 from .common import component_id_series, parse_component_ids
 from .data_loading import _read_fits_header_shape, _region_bounds
@@ -488,7 +488,7 @@ def build_case_exports(
     memberships: dict[str, pd.DataFrame],
     output_dir: str | Path,
 ) -> pd.DataFrame:
-    """Build ranked case tables and manual-review templates."""
+    """Build ranked case tables and manual-review forms."""
 
     output = Path(output_dir)
     cases_dir = output / "cases"
@@ -630,7 +630,7 @@ def build_case_exports(
     for _, row in case_rankings.iterrows():
         for cid in parse_component_ids(row.get("component_ids", "")):
             label_rows.append({"case_id": row["case_id"], "component_id": cid, "true_local_group_id": "", "label_quality": "", "artifact_flag": "", "notes": ""})
-    pd.DataFrame(label_rows).to_csv(manual_dir / "manual_labels_template.csv", index=False)
+    pd.DataFrame(label_rows).to_csv(manual_dir / "manual_labels_form.csv", index=False)
     instructions = (
         "# Manual Review Instructions\n\n"
         "Fill `true_local_group_id` so components belonging to the same local radio emission structure share one id within each case.\n\n"
@@ -879,7 +879,7 @@ def write_tile_report(
         "The full method is used only as a reference method for structural agreement and split/merge comparisons.",
         "",
         "## Manual Truth",
-        "Use `manual_review/manual_labels_template.csv` and the contact sheet to prepare human labels.",
+        "Use `manual_review/manual_labels_form.csv` and the contact sheet to prepare human labels.",
         "After labels are filled, rerun with `--manual-labels` to compute pairwise precision/recall/F1, B-cubed metrics, exact-group recovery, over-merge rate, and split rate.",
     ]
     (output / "tile_baseline_report.md").write_text("\n".join(lines), encoding="utf-8")

@@ -18,21 +18,21 @@ import pandas as pd
 import yaml
 import numpy as np
 
-from lofar_det_vsex.baseline_demo.baseline_contour import run_contour_baseline
-from lofar_det_vsex.baseline_demo.baseline_distance import run_distance_baseline
-from lofar_det_vsex.baseline_demo.baseline_pybdsf import run_pybdsf_island_baseline
-from lofar_det_vsex.baseline_demo.baseline_unconstrained import run_unconstrained_graph_baseline
-from lofar_det_vsex.baseline_demo.common import component_id_series
-from lofar_det_vsex.baseline_demo.comparison_metrics import (
+from lotss_association.baseline_demo.baseline_contour import run_contour_baseline
+from lotss_association.baseline_demo.baseline_distance import run_distance_baseline
+from lotss_association.baseline_demo.baseline_pybdsf import run_pybdsf_island_baseline
+from lotss_association.baseline_demo.baseline_unconstrained import run_unconstrained_graph_baseline
+from lotss_association.baseline_demo.common import component_id_series
+from lotss_association.baseline_demo.comparison_metrics import (
     manual_label_metrics,
     method_agreement_table,
     split_merge_against_reference,
     summarize_groups,
 )
-from lofar_det_vsex.baseline_demo.data_loading import inspect_tile_inputs, load_tile_demo
-from lofar_det_vsex.baseline_demo.neighbour_search import find_candidate_pairs
-from lofar_det_vsex.baseline_demo.plotting import make_all_plots
-from lofar_det_vsex.baseline_demo.reporting import (
+from lotss_association.baseline_demo.data_loading import inspect_tile_inputs, load_tile_demo
+from lotss_association.baseline_demo.neighbour_search import find_candidate_pairs
+from lotss_association.baseline_demo.plotting import make_all_plots
+from lotss_association.baseline_demo.reporting import (
     beam_distance_sample,
     build_case_exports,
     catalogue_preflight,
@@ -48,8 +48,8 @@ from lofar_det_vsex.baseline_demo.reporting import (
     write_preflight_report,
     write_tile_report,
 )
-from lofar_det_vsex.baseline_demo.run_full_layer1 import run_full_layer1_method
-from lofar_det_vsex.utils import ensure_dir, load_yaml, setup_logging, write_dataframe
+from lotss_association.baseline_demo.run_full_layer1 import run_full_layer1_method
+from lotss_association.utils import ensure_dir, load_yaml, setup_logging, write_dataframe
 
 
 def parse_args() -> argparse.Namespace:

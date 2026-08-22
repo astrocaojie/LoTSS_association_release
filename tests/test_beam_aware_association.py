@@ -5,13 +5,13 @@ import unittest
 import numpy as np
 import pandas as pd
 
-from lofar_det_vsex.association import (
+from lotss_association.association import (
     _beam_model_on_grid,
     _candidate_pairs,
     compute_residual_bridge_features,
     unresolved_pair_veto,
 )
-from lofar_det_vsex.beam import (
+from lotss_association.beam import (
     angle_delta_180,
     beam_covariance,
     direction_unit,
@@ -19,8 +19,8 @@ from lofar_det_vsex.beam import (
     projected_beam_fwhm,
     sky_pa_to_pixel_angle,
 )
-from lofar_det_vsex.morphology import classify_gaussian_component, effective_pa_weight
-from lofar_det_vsex.parent_links import classify_parent_acceptance, resolve_parent_conflicts
+from lotss_association.morphology import classify_gaussian_component, effective_pa_weight
+from lotss_association.parent_links import classify_parent_acceptance, resolve_parent_conflicts
 
 
 def meerklass_config() -> dict:

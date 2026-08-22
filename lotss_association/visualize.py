@@ -7,7 +7,7 @@ from typing import Any
 import os
 import re
 
-os.environ.setdefault("MPLCONFIGDIR", "/tmp/lofar_det_vsex_mplconfig")
+os.environ.setdefault("MPLCONFIGDIR", "/tmp/lotss_association_mplconfig")
 Path(os.environ["MPLCONFIGDIR"]).mkdir(parents=True, exist_ok=True)
 
 import matplotlib

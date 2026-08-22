@@ -5,8 +5,8 @@ import unittest
 import networkx as nx
 import pandas as pd
 
-from lofar_det_vsex.association import cluster_association_groups, compute_association_score
-from lofar_det_vsex.baseline_demo.reporting import edge_table_hash
+from lotss_association.association import cluster_association_groups, compute_association_score
+from lotss_association.baseline_demo.reporting import edge_table_hash
 
 
 def chain_components() -> pd.DataFrame:

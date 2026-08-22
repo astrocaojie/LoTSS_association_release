@@ -18,8 +18,8 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 import pandas as pd
 
-from lofar_det_vsex.utils import load_yaml
-from lofar_det_vsex.validation.dr1_reference import DEFAULT_DR1_COMPONENT_CSV, load_dr1_component_catalogue
+from lotss_association.utils import load_yaml
+from lotss_association.validation.dr1_reference import DEFAULT_DR1_COMPONENT_CSV, load_dr1_component_catalogue
 
 
 SOURCE_OUTPUT_ROOT = Path(os.environ.get("LOTSS_ASSOC_OUTPUT_ROOT", PROJECT_ROOT / "outputs" / "lotss_dr3_full"))

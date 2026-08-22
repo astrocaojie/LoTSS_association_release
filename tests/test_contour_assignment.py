@@ -5,7 +5,7 @@ import unittest
 import numpy as np
 import pandas as pd
 
-from lofar_det_vsex.baseline_demo.baseline_contour import assign_labels_at_components, build_contour_labels
+from lotss_association.baseline_demo.baseline_contour import assign_labels_at_components, build_contour_labels
 
 
 class ContourAssignmentTest(unittest.TestCase):

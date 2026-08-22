@@ -10,7 +10,7 @@ from typing import Any
 import networkx as nx
 import pandas as pd
 
-from lofar_det_vsex.utils import write_dataframe
+from lotss_association.utils import write_dataframe
 
 from .common import group_summary_from_membership, membership_from_clusters, write_method_outputs
 

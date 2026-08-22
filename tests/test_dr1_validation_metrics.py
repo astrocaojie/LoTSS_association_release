@@ -4,9 +4,9 @@ import unittest
 
 import pandas as pd
 
-from lofar_det_vsex.validation.bbox_support import bbox_contains, match_predictions_to_dr1_components
-from lofar_det_vsex.validation.footprint import add_bbox_centre, build_dr1_sky_footprint, filter_predictions_in_footprint
-from lofar_det_vsex.validation.metrics import compute_support_rates, wilson_interval
+from lotss_association.validation.bbox_support import bbox_contains, match_predictions_to_dr1_components
+from lotss_association.validation.footprint import add_bbox_centre, build_dr1_sky_footprint, filter_predictions_in_footprint
+from lotss_association.validation.metrics import compute_support_rates, wilson_interval
 
 
 class Dr1ValidationMetricsTest(unittest.TestCase):

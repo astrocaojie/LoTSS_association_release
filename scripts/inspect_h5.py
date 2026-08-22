@@ -10,8 +10,8 @@ import sys
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from lofar_det_vsex.io import detect_h5_keys, print_h5_structure, summarize_h5_file
-from lofar_det_vsex.utils import load_yaml
+from lotss_association.io import detect_h5_keys, print_h5_structure, summarize_h5_file
+from lotss_association.utils import load_yaml
 
 
 def parse_args() -> argparse.Namespace:

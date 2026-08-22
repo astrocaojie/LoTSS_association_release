@@ -222,7 +222,7 @@ and segmentation labels.
 
 ## 10. Visualization Plan
 
-`scripts/visualize_results.py` and `lofar_det_vsex.visualize` generate one PNG
+`scripts/visualize_results.py` and `lotss_association.visualize` generate one PNG
 per cutout. The figure overlays:
 
 - original radio image,
@@ -233,7 +233,9 @@ per cutout. The figure overlays:
 - accepted graph edges,
 - final merged source bounding boxes and ids.
 
-Figures are written to `outputs/figures/{cutout_id}_vsex.png`.
+Figures are written under `outputs/figures/overview/` and
+`outputs/figures/zoom/`. Overview filenames use `{cutout_id}.png`; zoom
+filenames include both the cutout id and source/group id.
 
 ## 11. Smoke Test Plan
 

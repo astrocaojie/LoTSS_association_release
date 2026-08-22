@@ -455,7 +455,7 @@ def run_host_support(
             needs_records.append(
                 {
                     "cutout_id": cutout_id,
-                    "record_type": "host_supportd_parent_link",
+                    "record_type": "host_supported_parent_link",
                     "object_id": parent.get("parent_candidate_id"),
                     "reason": "host-gated parent candidate" if default else rejection,
                     "priority": quality if quality in {"high", "medium"} else "low",

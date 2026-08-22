@@ -16,6 +16,8 @@ import numpy as np
 FWHM_TO_SIGMA = 1.0 / (2.0 * np.sqrt(2.0 * np.log(2.0)))
 SIGMA_TO_FWHM = 1.0 / FWHM_TO_SIGMA
 
+# 所有 beam-aware 距离都以恢复波束为尺度，而不是用固定角距离；
+# 这样同一套规则可迁移到不同分辨率或不同椭圆 beam 的数据。
 
 def normalize_angle_180(angle_deg: float) -> float:
     """Return an undirected angle in degrees in the half-open range [0, 180)."""
@@ -215,6 +217,7 @@ def elliptical_beam_distance(delta_xy_arcsec: np.ndarray | tuple[float, float], 
     ``distance_arcsec / BMIN``.
     """
 
+    # 沿两点连线方向投影椭圆 beam 宽度，得到比圆形 beam 更稳健的归一化距离。
     delta = np.asarray(delta_xy_arcsec, dtype=float).reshape(2)
     if not np.isfinite(delta).all():
         return float("nan")

@@ -12,7 +12,7 @@ from typing import Any, Mapping
 import numpy as np
 
 
-LOGGER_NAME = "lofar_det_vsex"
+LOGGER_NAME = "lotss_association"
 
 
 def setup_logging(debug: bool = False, log_path: str | Path | None = None) -> logging.Logger:

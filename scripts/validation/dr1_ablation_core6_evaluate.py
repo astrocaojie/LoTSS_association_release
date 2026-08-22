@@ -18,11 +18,11 @@ sys.path.insert(0, str(PROJECT_ROOT))
 import numpy as np
 import pandas as pd
 
-from lofar_det_vsex.utils import load_yaml
-from lofar_det_vsex.validation.bbox_support import match_predictions_to_dr1_components
-from lofar_det_vsex.validation.dr1_reference import DEFAULT_DR1_COMPONENT_CSV, load_dr1_component_catalogue
-from lofar_det_vsex.validation.footprint import build_dr1_sky_footprint, filter_predictions_in_footprint
-from lofar_det_vsex.validation.metrics import compute_support_rates
+from lotss_association.utils import load_yaml
+from lotss_association.validation.bbox_support import match_predictions_to_dr1_components
+from lotss_association.validation.dr1_reference import DEFAULT_DR1_COMPONENT_CSV, load_dr1_component_catalogue
+from lotss_association.validation.footprint import build_dr1_sky_footprint, filter_predictions_in_footprint
+from lotss_association.validation.metrics import compute_support_rates
 
 
 CORE_VARIANTS = [

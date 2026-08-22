@@ -28,7 +28,7 @@ checkpoints/
 *.jpeg
 *.pdf
 
-# Keep example placeholders visible if they are ever added.
+# Keep small example metadata files visible if they are ever added.
 !examples/**/*.csv
 !examples/**/*.yaml
 !examples/**/*.yml

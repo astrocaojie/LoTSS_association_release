@@ -14,7 +14,7 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from lofar_det_vsex.catalog import normalized_gaussian_dataframe, read_gaussian_catalog
+from lotss_association.catalog import normalized_gaussian_dataframe, read_gaussian_catalog
 from lotss_dr3_common import (
     DEFAULT_OUTPUT_ROOT,
     STANDARD_GAUSSIAN_COLUMNS,

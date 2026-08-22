@@ -22,9 +22,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from lofar_det_vsex.validation.bbox_support import match_predictions_to_dr1_components
-from lofar_det_vsex.validation.dr1_reference import DEFAULT_DR1_COMPONENT_CSV, load_dr1_component_catalogue
-from lofar_det_vsex.validation.metrics import compute_support_rates, support_table_to_latex
+from lotss_association.validation.bbox_support import match_predictions_to_dr1_components
+from lotss_association.validation.dr1_reference import DEFAULT_DR1_COMPONENT_CSV, load_dr1_component_catalogue
+from lotss_association.validation.metrics import compute_support_rates, support_table_to_latex
 
 
 DEFAULT_PREDICTIONS = PROJECT_ROOT / "outputs/dr1_validation/full_method_sanity/full_method_predictions_with_dr1_support.csv.gz"

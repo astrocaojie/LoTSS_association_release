@@ -14,22 +14,22 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 import pandas as pd
 
-from lofar_det_vsex.association import EDGE_COLUMNS as ASSOCIATION_EDGE_COLUMNS
-from lofar_det_vsex.association import GROUP_COLUMNS as ASSOCIATION_GROUP_COLUMNS
-from lofar_det_vsex.association import run_component_association
-from lofar_det_vsex.catalog import normalized_gaussian_dataframe, read_gaussian_catalog
-from lofar_det_vsex.graph_merge import build_component_graph
-from lofar_det_vsex.io import H5CutoutReader
-from lofar_det_vsex.matching import match_gaussians_to_cutout
-from lofar_det_vsex.measurements import measure_merged_sources
-from lofar_det_vsex.segmentation import (
+from lotss_association.association import EDGE_COLUMNS as ASSOCIATION_EDGE_COLUMNS
+from lotss_association.association import GROUP_COLUMNS as ASSOCIATION_GROUP_COLUMNS
+from lotss_association.association import run_component_association
+from lotss_association.catalog import normalized_gaussian_dataframe, read_gaussian_catalog
+from lotss_association.graph_merge import build_component_graph
+from lotss_association.io import H5CutoutReader
+from lotss_association.matching import match_gaussians_to_cutout
+from lotss_association.measurements import measure_merged_sources
+from lotss_association.segmentation import (
     build_snr_map,
     save_segmentation,
     segment_snr_map,
     segmentation_diagnostics,
 )
-from lofar_det_vsex.utils import ensure_dir, infer_pixel_scale_arcsec, load_yaml, setup_logging, write_dataframe
-from lofar_det_vsex.visualize import plot_cutout_all
+from lotss_association.utils import ensure_dir, infer_pixel_scale_arcsec, load_yaml, setup_logging, write_dataframe
+from lotss_association.visualize import plot_cutout_all
 
 
 EDGE_COLUMNS = [
@@ -194,7 +194,7 @@ def reset_overwrite_outputs(dirs: dict[str, Path]) -> None:
             path.unlink()
     for path in dirs["partials"].glob("*.csv"):
         path.unlink()
-    for path in dirs["figures"].glob("*_vsex.png"):
+    for path in dirs["figures"].glob("*_association.png"):
         path.unlink()
     for folder_name in ["overview", "zoom"]:
         folder = dirs["figures"] / folder_name
@@ -420,12 +420,12 @@ def combine_partials(output_dir: Path) -> None:
     association_edges = _with_columns(association_edges, ASSOCIATION_EDGE_COLUMNS)
     association_components = _with_columns(association_components, ASSOCIATION_COMPONENT_COLUMNS)
 
-    merged.to_csv(catalogs_dir / "lofar_det_vsex_merged_sources.csv", index=False)
-    write_dataframe(merged, catalogs_dir / "lofar_det_vsex_merged_sources.parquet")
-    write_dataframe(edges, catalogs_dir / "lofar_det_vsex_edges.parquet")
-    write_dataframe(components, catalogs_dir / "lofar_det_vsex_components.parquet")
-    edges.to_csv(catalogs_dir / "lofar_det_vsex_edges.csv", index=False)
-    components.to_csv(catalogs_dir / "lofar_det_vsex_components.csv", index=False)
+    merged.to_csv(catalogs_dir / "lotss_association_merged_sources.csv", index=False)
+    write_dataframe(merged, catalogs_dir / "lotss_association_merged_sources.parquet")
+    write_dataframe(edges, catalogs_dir / "lotss_association_edges.parquet")
+    write_dataframe(components, catalogs_dir / "lotss_association_components.parquet")
+    edges.to_csv(catalogs_dir / "lotss_association_edges.csv", index=False)
+    components.to_csv(catalogs_dir / "lotss_association_components.csv", index=False)
     association_groups.to_csv(catalogs_dir / "radio_association_groups.csv", index=False)
     write_dataframe(association_groups, catalogs_dir / "radio_association_groups.parquet")
     write_dataframe(association_edges, catalogs_dir / "radio_association_edges.parquet")

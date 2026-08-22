@@ -5,8 +5,8 @@ import unittest
 import networkx as nx
 import pandas as pd
 
-from lofar_det_vsex.association import cluster_association_groups
-from lofar_det_vsex.baseline_demo.baseline_unconstrained import unconstrained_clusters_from_edges
+from lotss_association.association import cluster_association_groups
+from lotss_association.baseline_demo.baseline_unconstrained import unconstrained_clusters_from_edges
 
 
 def chain_components() -> pd.DataFrame:

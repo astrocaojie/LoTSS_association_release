@@ -312,7 +312,7 @@ def strongest_evidence_for_cluster(edges: pd.DataFrame, nodes: list[int]) -> tup
 
 
 def complete_graph_edges_for_singletons(components: pd.DataFrame) -> pd.DataFrame:
-    """Build a placeholder edge table for diagnostics when needed."""
+    """Build an empty-decision edge table for diagnostics when needed."""
 
     records = []
     for left, right in combinations(range(len(components)), 2):

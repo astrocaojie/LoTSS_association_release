@@ -24,7 +24,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 import pandas as pd
 
-from lofar_det_vsex.utils import load_yaml
+from lotss_association.utils import load_yaml
 
 
 SUPPORT_COLUMNS = [

@@ -29,7 +29,7 @@ image support, and validation rules in this repository.
 
 ## Repository Layout and Entry Points
 
-- `lofar_det_vsex/`: reusable package modules for IO, segmentation,
+- `lotss_association/`: reusable package modules for IO, segmentation,
   association, parent-linking, validation, plotting, and utilities.
 - `scripts/run_pipeline.py`: single H5 cutout-file entry point.
 - `scripts/run_lotss_dr3_full.py`: full LoTSS DR3 production wrapper.
@@ -37,7 +37,7 @@ image support, and validation rules in this repository.
   catalogues.
 - `scripts/run_missing_pybdsf_lotss_dr3.py`: optional PyBDSF backfill helper.
 - `scripts/validation/`: DR1 component-reference validation tools.
-- `scripts/hpc/`: SLURM templates for larger survey runs.
+- `scripts/hpc/`: SLURM examples for larger survey runs.
 - `configs/real_lotss_conservative.yaml`: recommended conservative
   configuration.
 - `docs/`: method notes and release notes.
@@ -45,6 +45,9 @@ image support, and validation rules in this repository.
 
 The most useful documentation files are:
 
+- `docs/software_package.md`: public package structure, stable modules, and
+  reuse boundaries.
+- `docs/script_reference.md`: command-line tools grouped by user-facing role.
 - `docs/association_strategy.md`: local Gaussian-component association logic.
 - `docs/parent_association.md`: parent-linking candidate stage and outputs.
 - `docs/algorithm_notes.md`: background on PyBDSF components, segmentation,
@@ -66,6 +69,17 @@ python -m pip install -e ".[dev]"
 `PyBDSF` is optional. It is only needed when the repository must generate
 missing Gaussian catalogues. If PyBDSF Gaussian catalogues already exist, the
 association pipeline can run without PyBDSF.
+
+After installation, the reusable Python package is imported as:
+
+```python
+import lotss_association
+```
+
+The command-line tools in `scripts/` are intentionally kept as source-tree
+scripts because survey-scale runs often need explicit data roots, manifests,
+and cluster-specific job settings. See `docs/script_reference.md` before
+running a large job.
 
 ## Required Inputs
 
@@ -102,7 +116,7 @@ Main outputs are written under `outputs/example_association/catalogs/`:
 - `radio_association_groups.csv` and `.parquet`
 - `radio_association_edges.csv` and `.parquet`
 - `radio_association_components.csv` and `.parquet`
-- `lofar_det_vsex_merged_sources.csv` and `.parquet`
+- `lotss_association_merged_sources.csv` and `.parquet`
 
 `radio_association_edges` is the main diagnostic table: it records the positive
 and negative evidence for each tested component pair. `radio_association_groups`
@@ -177,6 +191,13 @@ pytest
 The tests avoid large survey data and cover the core scoring, clustering,
 baseline, and validation utilities.
 
+For a release check, also run:
+
+```bash
+python -m compileall -q lotss_association scripts
+python -c "import lotss_association; print(lotss_association.__version__)"
+```
+
 ## Citation
 
 If you use this code, cite the repository and the associated paper or data
@@ -185,5 +206,4 @@ with the final author list, DOI, and paper title before publication.
 
 ## License
 
-This package ships with an MIT license template. Confirm the final license with
-all project contributors before publishing.
+This package is released under the MIT license.

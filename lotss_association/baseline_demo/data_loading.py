@@ -14,9 +14,9 @@ from astropy.table import Table
 from astropy.wcs import WCS
 from astropy.wcs.utils import proj_plane_pixel_scales
 
-from lofar_det_vsex.catalog import normalized_gaussian_dataframe, read_gaussian_catalog
-from lofar_det_vsex.segmentation import build_snr_map, labels_at_points, segment_snr_map
-from lofar_det_vsex.utils import get_logger, robust_mad_rms, safe_float, write_dataframe
+from lotss_association.catalog import normalized_gaussian_dataframe, read_gaussian_catalog
+from lotss_association.segmentation import build_snr_map, labels_at_points, segment_snr_map
+from lotss_association.utils import get_logger, robust_mad_rms, safe_float, write_dataframe
 
 
 @dataclass

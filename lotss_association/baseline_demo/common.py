@@ -10,7 +10,7 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 
-from lofar_det_vsex.utils import safe_float, write_dataframe
+from lotss_association.utils import safe_float, write_dataframe
 
 
 GROUP_COLUMNS = [

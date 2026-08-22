@@ -38,6 +38,9 @@ FIELD_ALIASES = {
 
 @dataclass
 class CatalogColumns:
+    """Detected source, position, flux, shape, and optional pixel-coordinate columns."""
+
+    # PyBDSF/LoTSS catalogue 的列名会随版本或导出方式变化；内部统一映射到规范字段名。
     source_id: str | None = None
     island_id: str | None = None
     gaussian_id: str | None = None
@@ -120,6 +123,7 @@ def table_to_dataframe(table: Table) -> pd.DataFrame:
 def normalized_gaussian_dataframe(table: Table) -> tuple[pd.DataFrame, CatalogColumns]:
     """Return a DataFrame with canonical helper columns added where possible."""
 
+    # 保留原始列，同时添加以下划线开头的规范列，避免破坏用户输入 catalogue。
     columns = detect_catalog_columns(table)
     warn_missing_columns(columns)
     df = table_to_dataframe(table)

@@ -24,6 +24,7 @@ def match_gaussians_to_cutout(
     Returns a normalized component DataFrame and the matching mode name.
     """
 
+    # 优先用 WCS 做天球坐标匹配；没有 WCS 时才退回到像素坐标或空匹配诊断。
     height, width = cutout.image.shape
     pixel_scale = pixel_scale_arcsec or infer_pixel_scale_arcsec(cutout.wcs)
     radius_arcsec = 0.5 * np.hypot(width, height) * pixel_scale + preselect_margin_arcsec
@@ -79,6 +80,7 @@ def match_gaussians_to_cutout(
     out["pixel_scale_arcsec"] = pixel_scale
 
     if segmentation is not None:
+        # 把每个 Gaussian 在各个 S/N 阈值下的 label 写回表中，后续 pair scoring 可直接查表。
         labels = labels_at_points(
             segmentation.labels_by_threshold,
             segmentation.thresholds,

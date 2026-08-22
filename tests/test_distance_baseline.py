@@ -4,8 +4,8 @@ import unittest
 
 import pandas as pd
 
-from lofar_det_vsex.baseline_demo.baseline_distance import run_distance_threshold
-from lofar_det_vsex.baseline_demo.neighbour_search import find_candidate_pairs
+from lotss_association.baseline_demo.baseline_distance import run_distance_threshold
+from lotss_association.baseline_demo.neighbour_search import find_candidate_pairs
 
 
 class DistanceBaselineTest(unittest.TestCase):

@@ -14,6 +14,10 @@ from .utils import robust_mad_rms
 
 @dataclass
 class SegmentationResult:
+    """Multi-threshold S/N segmentation products for one cutout."""
+
+    # labels_by_threshold[k] 存储第 k 个 S/N 阈值下的连通域编号；
+    # association 阶段只需查两个 Gaussian 是否落在同一个非零 label 中。
     snr_map: np.ndarray
     thresholds: np.ndarray
     masks: np.ndarray
@@ -74,6 +78,7 @@ def build_snr_map(
 ) -> tuple[np.ndarray, np.ndarray | float, np.ndarray | float]:
     """Build an S/N map from an image and optional mean/rms maps."""
 
+    # S/N 图是后续等值线连通、bridge/ridge 支持和伪影惩罚的共同基础。
     image = np.asarray(image, dtype=float)
     mean_value = estimate_mean(image, mean, mode=mean_mode)
     rms_value = estimate_rms(image, rms, mode=rms_mode)
@@ -115,6 +120,7 @@ def segment_snr_map(
 ) -> SegmentationResult:
     """Segment an S/N map at multiple thresholds."""
 
+    # 高阈值追踪亮峰，低阈值追踪扩展结构；多阈值结果共同进入 pairwise 证据表。
     snr_map = np.asarray(snr_map, dtype=float)
     thresholds_arr = np.asarray(thresholds, dtype=float)
     structure = ndi.generate_binary_structure(2, 2 if connectivity == 2 else 1)

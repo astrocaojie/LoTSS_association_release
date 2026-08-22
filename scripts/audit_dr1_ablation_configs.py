@@ -9,17 +9,17 @@ PROJECT_ROOT=Path(__file__).resolve().parents[1]
 RUN_KEYS={('output_dir',),('dr1_validation','input_h5'),('dr1_validation','variant_id'),('dr1_validation','variant_name'),('dr1_validation','pybdsf_reused')}
 RUN_OR_EMPTY_A0_KEYS=RUN_KEYS|{('ablation',)}
 CODEPATHS={
- 'use_ridge_continuity':('lofar_det_vsex/association.py','compute_pair_association_features/run_component_association','ablation_enabled(config, "use_ridge_continuity")'),
- 'use_weak_edge_anti_chaining':('lofar_det_vsex/association.py','cluster_association_groups','ablation_enabled(config, "use_weak_edge_anti_chaining")'),
- 'use_artifact_penalties_layer1':('lofar_det_vsex/association.py','compute_pair_association_features/build_association_graph','ablation_enabled(config, "use_artifact_penalties_layer1")'),
- 'use_artifact_penalties_layer2':('lofar_det_vsex/parent_links.py','run_parent_links/_make_pair_edges','ablation_enabled(config, "use_artifact_penalties_layer2")'),
- 'use_midpoint_host_support':('lofar_det_vsex/parent_links.py','run_parent_links/classify_parent_acceptance','ablation_enabled(config, "use_midpoint_host_support")'),
- 'use_lobe_peak_host_contradiction':('lofar_det_vsex/parent_links.py','run_parent_links','ablation_enabled(config, "use_lobe_peak_host_contradiction")'),
- 'use_pa_alignment':('lofar_det_vsex/association.py','compute_pair_association_features','ablation_enabled(config, "use_pa_alignment")'),
- 'use_ellipse_overlap':('lofar_det_vsex/association.py','compute_pair_association_features','ablation_enabled(config, "use_ellipse_overlap")'),
- 'use_multithreshold_contour':('lofar_det_vsex/association.py','compute_pair_association_features/build_association_graph','ablation_enabled(config, "use_multithreshold_contour")'),
- 'use_stage2_relative_scale_constraints':('lofar_det_vsex/parent_links.py','_make_pair_edges/run_parent_links','ablation_enabled(config, "use_stage2_relative_scale_constraints")'),
- 'use_stage2_endpoint_filtering':('lofar_det_vsex/parent_links.py','_make_pair_edges/run_parent_links','ablation_enabled(config, "use_stage2_endpoint_filtering")'),
+ 'use_ridge_continuity':('lotss_association/association.py','compute_pair_association_features/run_component_association','ablation_enabled(config, "use_ridge_continuity")'),
+ 'use_weak_edge_anti_chaining':('lotss_association/association.py','cluster_association_groups','ablation_enabled(config, "use_weak_edge_anti_chaining")'),
+ 'use_artifact_penalties_layer1':('lotss_association/association.py','compute_pair_association_features/build_association_graph','ablation_enabled(config, "use_artifact_penalties_layer1")'),
+ 'use_artifact_penalties_layer2':('lotss_association/parent_links.py','run_parent_links/_make_pair_edges','ablation_enabled(config, "use_artifact_penalties_layer2")'),
+ 'use_midpoint_host_support':('lotss_association/parent_links.py','run_parent_links/classify_parent_acceptance','ablation_enabled(config, "use_midpoint_host_support")'),
+ 'use_lobe_peak_host_contradiction':('lotss_association/parent_links.py','run_parent_links','ablation_enabled(config, "use_lobe_peak_host_contradiction")'),
+ 'use_pa_alignment':('lotss_association/association.py','compute_pair_association_features','ablation_enabled(config, "use_pa_alignment")'),
+ 'use_ellipse_overlap':('lotss_association/association.py','compute_pair_association_features','ablation_enabled(config, "use_ellipse_overlap")'),
+ 'use_multithreshold_contour':('lotss_association/association.py','compute_pair_association_features/build_association_graph','ablation_enabled(config, "use_multithreshold_contour")'),
+ 'use_stage2_relative_scale_constraints':('lotss_association/parent_links.py','_make_pair_edges/run_parent_links','ablation_enabled(config, "use_stage2_relative_scale_constraints")'),
+ 'use_stage2_endpoint_filtering':('lotss_association/parent_links.py','_make_pair_edges/run_parent_links','ablation_enabled(config, "use_stage2_endpoint_filtering")'),
 }
 
 def sha_file(p:Path)->str: return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -67,7 +67,7 @@ def main():
             file,func,symbol=CODEPATHS.get(key,('','',''))
             text=(PROJECT_ROOT/file).read_text(errors='ignore') if file else ''
             verified=bool(symbol and symbol in text)
-            code_rows.append({'variant_id':row.variant_id,'variant_name':row.variant_name,'disabled_module':row.disabled_module,'config_key':key,'a0_value':True,'ablation_value':val,'config_loader_file':'lofar_det_vsex/ablation_config.py','runner_file':'scripts/run_dr1_ablation_shard.py -> scripts/run_lotss_dr3_full.py::_process_field','core_code_file':file,'core_function':func,'code_line_or_symbol':symbol,'runtime_probe':'run_metadata.active_features/disabled_features','verified':verified,'notes':''})
+            code_rows.append({'variant_id':row.variant_id,'variant_name':row.variant_name,'disabled_module':row.disabled_module,'config_key':key,'a0_value':True,'ablation_value':val,'config_loader_file':'lotss_association/ablation_config.py','runner_file':'scripts/run_dr1_ablation_shard.py -> scripts/run_lotss_dr3_full.py::_process_field','core_code_file':file,'core_function':func,'code_line_or_symbol':symbol,'runtime_probe':'run_metadata.active_features/disabled_features','verified':verified,'notes':''})
     pd.DataFrame(diff_rows).to_csv(cfgdir/'ablation_config_diff.csv',index=False)
     (cfgdir/'ablation_config_diff.json').write_text(json.dumps(diff_rows,indent=2,sort_keys=True)+'\n')
     pd.DataFrame(code_rows).to_csv(cfgdir/'ablation_codepath_audit.csv',index=False)

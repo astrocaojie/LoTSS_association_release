@@ -24,6 +24,9 @@ WCS_CANDIDATES = ["header", "wcs", "fits_header", "cutout_header", "cutout_wcs_h
 
 @dataclass
 class H5Keys:
+    """Detected H5 dataset names for image, noise, position, and WCS fields."""
+
+    # H5 文件结构在不同数据准备流程中可能不一致；这里统一保存自动识别出的关键数据集名称。
     image_key: str | None = None
     rms_key: str | None = None
     mean_key: str | None = None
@@ -35,6 +38,9 @@ class H5Keys:
 
 @dataclass
 class Cutout:
+    """One radio image cutout and its optional noise, sky-position, and WCS metadata."""
+
+    # 下游 association 只依赖这个轻量 Cutout 对象，不直接依赖某一种 H5/FITS 存储布局。
     cutout_id: str
     image: np.ndarray
     rms: np.ndarray | float | None = None
@@ -177,6 +183,7 @@ def _candidate_cutout_groups(handle: h5py.File) -> list[str]:
 def detect_h5_layout(h5_path: str | Path, image_key: str | None = None) -> str:
     """Detect whether images are stored as an array dataset or group-per-cutout."""
 
+    # 自动判断 H5 是 N x H x W 数组还是每个 cutout 一个 group，供 reader 选择读取策略。
     with h5py.File(h5_path, "r") as handle:
         if image_key and image_key in handle:
             obj = handle[image_key]
@@ -378,6 +385,7 @@ class H5CutoutReader:
     """Read cutout images and metadata from an H5 file."""
 
     def __init__(self, h5_path: str | Path, config_h5: dict[str, Any] | None = None):
+        # reader 持有打开的 H5 handle，避免批量处理时反复打开大文件。
         self.h5_path = Path(h5_path)
         self.keys = detect_h5_keys(self.h5_path, config_h5=config_h5)
         if not self.keys.image_key:

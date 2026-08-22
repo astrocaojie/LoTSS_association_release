@@ -15,9 +15,9 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 import pandas as pd
 
-from lofar_det_vsex.host_query import HOST_QUERY_LOG_COLUMNS, HostQueryClient
-from lofar_det_vsex.io import H5CutoutReader
-from lofar_det_vsex.parent_links_endpoint_guarded import (
+from lotss_association.host_query import HOST_QUERY_LOG_COLUMNS, HostQueryClient
+from lotss_association.io import H5CutoutReader
+from lotss_association.parent_links_endpoint_guarded import (
     SOURCE_MORPH_TABLE_COLUMNS,
     PARENT_CANDIDATE_COLUMNS,
     PARENT_DIAGNOSTIC_COLUMNS,
@@ -26,9 +26,9 @@ from lofar_det_vsex.parent_links_endpoint_guarded import (
     run_parent_links_endpoint_guarded,
     parent_link_config,
 )
-from lofar_det_vsex.segmentation import load_segmentation
-from lofar_det_vsex.utils import ensure_dir, load_yaml, setup_logging, write_dataframe
-from lofar_det_vsex.visualize import plot_parent_link_cutout_all
+from lotss_association.segmentation import load_segmentation
+from lotss_association.utils import ensure_dir, load_yaml, setup_logging, write_dataframe
+from lotss_association.visualize import plot_parent_link_cutout_all
 
 
 def parse_args() -> argparse.Namespace:
@@ -147,7 +147,7 @@ def _summary(selected: list[tuple[int, str]], status_records: list[dict[str, Any
                 "n_parent_union_boxes": int(diagnostics.get("n_parent_union_boxes", pd.Series(dtype=float)).sum()) if not diagnostics.empty else 0,
                 "n_auto_close_merge": 0,
                 "uses_parent_link_baseline": True,
-                "uses_obsolete_experimental_path_a_obsolete_experimental_path_b_obsolete_experimental_path_c": False,
+                "uses_non_release_output_paths": False,
             }
         ]
     )
@@ -192,7 +192,7 @@ def _write_report(path: Path, summary: pd.DataFrame, candidates: pd.DataFrame, e
         "# Endpoint-Guarded Validation",
         "",
         "endpoint-guarded uses the production parent-linking baseline parent association path with a hard endpoint gate and a conservative near-boundary extended-lobe rescue before host scoring.",
-        "obsolete experimental paths refined groups and automatic close merge are not used.",
+        "Internal development output paths and automatic close merge products are not used.",
         "",
         "## Summary",
         "",
@@ -222,7 +222,7 @@ def _write_report(path: Path, summary: pd.DataFrame, candidates: pd.DataFrame, e
         "n_parent_union_boxes",
         "n_auto_close_merge",
         "uses_parent_link_baseline",
-        "uses_obsolete_experimental_path_a_obsolete_experimental_path_b_obsolete_experimental_path_c",
+        "uses_non_release_output_paths",
     ]:
         lines.append(f"- {key}: {row.get(key, 0)}")
     lines.extend(
@@ -231,7 +231,7 @@ def _write_report(path: Path, summary: pd.DataFrame, candidates: pd.DataFrame, e
             "## Checks",
             "",
             "- baseline_is_parent: True",
-            "- uses_obsolete_experimental_path_a_obsolete_experimental_path_b_obsolete_experimental_path_c: False",
+            "- uses_non_release_output_paths: False",
             "- No automatic close merge is generated in endpoint-guarded.",
             "- Hard compact sources are not allowed as parent endpoints.",
             "- Noise/artifact sources are not allowed as parent endpoints.",
@@ -288,15 +288,15 @@ def main() -> None:
         (PROJECT_ROOT / "outputs_association_test").resolve(),
         (PROJECT_ROOT / "outputs_parent_seed_association_test").resolve(),
         (PROJECT_ROOT / "outputs_parent_seed_refined_test").resolve(),
-        (PROJECT_ROOT / "outputs_host_supportd_test").resolve(),
+        (PROJECT_ROOT / "outputs_host_supported_test").resolve(),
         (PROJECT_ROOT / "outputs_lobe_recovery_parent_linking_test").resolve(),
         (PROJECT_ROOT / "outputs_lobe_first_host_second_parent_linking_test").resolve(),
         (PROJECT_ROOT / "outputs_parent_linking_test").resolve(),
-        (PROJECT_ROOT / "outputs_obsolete_experimental_path_a_local_cleanup_parent_test").resolve(),
-        (PROJECT_ROOT / "outputs_obsolete_experimental_path_b_safety_revert_test").resolve(),
+        (PROJECT_ROOT / "outputs_non_release_local_cleanup_parent_test").resolve(),
+        (PROJECT_ROOT / "outputs_non_release_safety_revert_test").resolve(),
     }
     if output_dir.resolve() in protected:
-        raise SystemExit("endpoint-guarded must not write to local, production parent-linking, obsolete experimental path, or obsolete experimental path output directories")
+        raise SystemExit("endpoint-guarded must not write to local, production parent-linking, or non-release output directories")
     if args.overwrite:
         reset_outputs(output_dir)
     dirs = ensure_output_tree(output_dir)

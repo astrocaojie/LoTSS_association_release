@@ -8,7 +8,7 @@ from typing import Any
 
 import pandas as pd
 
-from lofar_det_vsex.utils import json_dumps_safe
+from lotss_association.utils import json_dumps_safe
 
 
 def module_inventory_records() -> list[dict[str, Any]]:
@@ -17,7 +17,7 @@ def module_inventory_records() -> list[dict[str, Any]]:
     return [
         {
             "module_name": "multi-threshold contour connectivity",
-            "python_file": "lofar_det_vsex/segmentation.py; lofar_det_vsex/association.py",
+            "python_file": "lotss_association/segmentation.py; lotss_association/association.py",
             "function_or_class": "segment_snr_map; _shared_label; compute_pair_association_features; compute_association_score",
             "input_fields": "segmentation.labels_by_threshold, segmentation.thresholds, component x/y, snr_thresholds",
             "output_fields": "connected_at_3sigma, connected_at_2p5sigma, connected_at_2sigma, same_label_*",
@@ -28,7 +28,7 @@ def module_inventory_records() -> list[dict[str, Any]]:
         },
         {
             "module_name": "ridge continuity / ridge score",
-            "python_file": "lofar_det_vsex/association.py",
+            "python_file": "lotss_association/association.py",
             "function_or_class": "compute_ridge_continuity; compute_association_score; assign_association_quality; classify_association_group",
             "input_fields": "segmentation.snr_map, component x/y, association.threshold_weak",
             "output_fields": "ridge_mean_snr, ridge_gap_fraction, ridge_continuity_score, ridge_gradient_smoothness",
@@ -39,7 +39,7 @@ def module_inventory_records() -> list[dict[str, Any]]:
         },
         {
             "module_name": "ellipse overlap",
-            "python_file": "lofar_det_vsex/association.py",
+            "python_file": "lotss_association/association.py",
             "function_or_class": "compute_pair_association_features; compute_association_score",
             "input_fields": "_dc_maj/_dc_min or _maj/_min, component separation, beam",
             "output_fields": "ellipse_overlap_score, ellipse_gap_beam",
@@ -50,7 +50,7 @@ def module_inventory_records() -> list[dict[str, Any]]:
         },
         {
             "module_name": "position-angle alignment",
-            "python_file": "lofar_det_vsex/association.py",
+            "python_file": "lotss_association/association.py",
             "function_or_class": "_angle_delta_deg; _alignment_score; compute_pair_association_features; compute_association_score",
             "input_fields": "_dc_pa/_pa and center-to-center line angle",
             "output_fields": "pa_alignment_score, line_to_pa_alignment_score, flow_alignment_score",
@@ -61,7 +61,7 @@ def module_inventory_records() -> list[dict[str, Any]]:
         },
         {
             "module_name": "strong-edge classification",
-            "python_file": "lofar_det_vsex/association.py",
+            "python_file": "lotss_association/association.py",
             "function_or_class": "build_association_graph",
             "input_fields": "association_score, distance_beam, association.threshold_strong",
             "output_fields": "edge_type, association_decision, rejection_reason",
@@ -72,7 +72,7 @@ def module_inventory_records() -> list[dict[str, Any]]:
         },
         {
             "module_name": "weak-edge classification",
-            "python_file": "lofar_det_vsex/association.py",
+            "python_file": "lotss_association/association.py",
             "function_or_class": "build_association_graph",
             "input_fields": "association_score, distance_beam, association.threshold_weak",
             "output_fields": "edge_type=weak, association_decision initially False, rejection_reason=pending_weak_attachment",
@@ -83,7 +83,7 @@ def module_inventory_records() -> list[dict[str, Any]]:
         },
         {
             "module_name": "weak-edge singleton attachment",
-            "python_file": "lofar_det_vsex/association.py",
+            "python_file": "lotss_association/association.py",
             "function_or_class": "cluster_association_groups",
             "input_fields": "edge_type, association_score, strong connected components",
             "output_fields": "association_decision=True for accepted weak attachments; rejection_reason",
@@ -94,7 +94,7 @@ def module_inventory_records() -> list[dict[str, Any]]:
         },
         {
             "module_name": "weak-edge anti-chaining",
-            "python_file": "lofar_det_vsex/association.py",
+            "python_file": "lotss_association/association.py",
             "function_or_class": "cluster_association_groups",
             "input_fields": "strong cores, weak edges, original group sizes",
             "output_fields": "rejection_reason=weak_edge_would_merge_core_groups/no_core_group/would_form_chain",
@@ -105,7 +105,7 @@ def module_inventory_records() -> list[dict[str, Any]]:
         },
         {
             "module_name": "artifact flags / artifact penalties / artifact veto",
-            "python_file": "lofar_det_vsex/association.py; lofar_det_vsex/parent_links_endpoint_guarded.py",
+            "python_file": "lotss_association/association.py; lotss_association/parent_links_endpoint_guarded.py",
             "function_or_class": "compute_artifact_penalties; assign_association_quality; classify_association_group; _artifact_environment; _source_morph; _classify_pair",
             "input_fields": "2sigma labels, bridge/ridge/PA support, line SNR, flux ratio, group environment",
             "output_fields": "deep_valley_penalty, only_2sigma_penalty, negative_bowl_penalty, sidelobe_risk_penalty, too_far_penalty, large_mask_swallow_penalty, artifact_risk_flags, is_artifact_risk, noise_artifact_veto",
@@ -116,7 +116,7 @@ def module_inventory_records() -> list[dict[str, Any]]:
         },
         {
             "module_name": "Layer-2 endpoint filtering",
-            "python_file": "lofar_det_vsex/parent_links_endpoint_guarded.py",
+            "python_file": "lotss_association/parent_links_endpoint_guarded.py",
             "function_or_class": "build_source_morph_table; _normal_endpoint_allowed; _rescue_endpoint_allowed; _classify_pair",
             "input_fields": "Layer-1 groups, 3sigma area, LAS, axis_ratio, quality/type, compact/artifact flags",
             "output_fields": "source_morph_class, is_lobe_candidate, is_parent_endpoint_allowed, lobe_like_reject_reason, double_lobe_geometry_pass",
@@ -127,7 +127,7 @@ def module_inventory_records() -> list[dict[str, Any]]:
         },
         {
             "module_name": "pairwise lobe geometry",
-            "python_file": "lofar_det_vsex/parent_seed.py; lofar_det_vsex/parent_links_endpoint_guarded.py",
+            "python_file": "lotss_association/parent_seed.py; lotss_association/parent_links_endpoint_guarded.py",
             "function_or_class": "_compute_pair; _symmetry_scores; _classify_pair",
             "input_fields": "local group bboxes, centroids, PA, flux, LAS/mask sizes",
             "output_fields": "axis_alignment_score, facing_score, flux_ratio, size_ratio, symmetry_score, lobe_pair_score",
@@ -138,7 +138,7 @@ def module_inventory_records() -> list[dict[str, Any]]:
         },
         {
             "module_name": "midpoint host support",
-            "python_file": "lofar_det_vsex/host_support.py; lofar_det_vsex/parent_links_endpoint_guarded.py",
+            "python_file": "lotss_association/host_support.py; lotss_association/parent_links_endpoint_guarded.py",
             "function_or_class": "_midpoint_ra_dec; _query_hosts_for_pair; score_host_candidates; run_parent_links_endpoint_guarded",
             "input_fields": "parent pair midpoint, WISE host query results, host geometry and WISE photometry",
             "output_fields": "best_host_score, host_quality, host_evidence=supports_double_lobe, parent_score_final, parent_candidate_quality",
@@ -149,7 +149,7 @@ def module_inventory_records() -> list[dict[str, Any]]:
         },
         {
             "module_name": "lobe-peak host contradiction",
-            "python_file": "lofar_det_vsex/parent_links_endpoint_guarded.py",
+            "python_file": "lotss_association/parent_links_endpoint_guarded.py",
             "function_or_class": "_peak_coord_for_group; _query_position_hosts; _score_lobe_peak_hosts; run_parent_links_endpoint_guarded",
             "input_fields": "lobe peak coordinates, WISE host query results near each lobe peak",
             "output_fields": "lobe_peak_host_found, lobe1/2_peak_host_score, host_evidence=contradicts_double_lobe/likely_independent_sources, rejection_reason",
@@ -160,7 +160,7 @@ def module_inventory_records() -> list[dict[str, Any]]:
         },
         {
             "module_name": "parent quality/confidence assignment",
-            "python_file": "lofar_det_vsex/parent_links_endpoint_guarded.py",
+            "python_file": "lotss_association/parent_links_endpoint_guarded.py",
             "function_or_class": "run_parent_links_endpoint_guarded; _apply_limits",
             "input_fields": "geometry pass, symmetry_score, midpoint host quality, lobe-peak host flags, artifact score",
             "output_fields": "parent_candidate_quality, host_evidence, needs_visual_check, parent_score_final",

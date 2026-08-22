@@ -22,11 +22,11 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(PROJECT_ROOT))
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from lofar_det_vsex.catalog import normalized_gaussian_dataframe, read_gaussian_catalog
-from lofar_det_vsex.host_query import HOST_QUERY_LOG_COLUMNS, HostQueryClient
-from lofar_det_vsex.io import H5CutoutReader
-from lofar_det_vsex.io import Cutout
-from lofar_det_vsex.parent_links import (
+from lotss_association.catalog import normalized_gaussian_dataframe, read_gaussian_catalog
+from lotss_association.host_query import HOST_QUERY_LOG_COLUMNS, HostQueryClient
+from lotss_association.io import H5CutoutReader
+from lotss_association.io import Cutout
+from lotss_association.parent_links import (
     SOURCE_MORPH_TABLE_COLUMNS,
     PARENT_CANDIDATE_COLUMNS,
     PARENT_DIAGNOSTIC_COLUMNS,
@@ -35,9 +35,9 @@ from lofar_det_vsex.parent_links import (
     run_parent_links,
     parent_link_config,
 )
-from lofar_det_vsex.segmentation import load_segmentation
-from lofar_det_vsex.utils import load_yaml, setup_logging, write_dataframe
-from lofar_det_vsex.visualize import plot_parent_link_cutout_all, plot_parent_link_parent_zoom
+from lotss_association.segmentation import load_segmentation
+from lotss_association.utils import load_yaml, setup_logging, write_dataframe
+from lotss_association.visualize import plot_parent_link_cutout_all, plot_parent_link_parent_zoom
 from scripts.run_pipeline import combine_partials, ensure_output_tree as ensure_local_output_tree, process_cutout
 from lotss_dr3_common import (
     DEFAULT_DATA_ROOT,
@@ -877,9 +877,9 @@ def _sanity_check(output_root: Path, limit_mode: bool) -> dict[str, Any]:
         result["wise_columns_present"] = all(col in merged.columns for col in HOST_COLUMNS[:-2])
         result["processing_version_ok"] = bool(len(merged) == 0 or (merged.get("processing_version", pd.Series(dtype=str)).astype(str) == PROCESSING_VERSION).all())
     bad_dirs = []
-    for token in ["obsolete_experimental_path_a", "obsolete_experimental_path_b", "obsolete_experimental_path_c"]:
+    for token in ["non_release_path_a", "non_release_path_b", "non_release_path_c"]:
         bad_dirs.extend([str(path) for path in dirs.root.rglob(f"*{token}*")])
-    result["no_obsolete_experimental_outputs"] = len(bad_dirs) == 0
+    result["no_non_release_outputs"] = len(bad_dirs) == 0
     result["bad_version_paths"] = bad_dirs[:10]
     if limit_mode and (result["gaussian_rows"] <= 0 or result["merged_rows"] <= 0 or not result["wise_columns_present"] or not result["processing_version_ok"]):
         raise SystemExit(f"Smoke sanity check failed: {result}")
@@ -894,7 +894,7 @@ def main() -> None:
     copy_repro_files(args.output_root, [Path(__file__), PROJECT_ROOT / "scripts" / "lotss_dr3_common.py", args.config])
     if not (dirs.root / "README.md").exists():
         (dirs.root / "README.md").write_text(
-            "# LoTSS DR3 Production Association Run\n\nProduction run using `lofar_det_vsex.parent_links.run_parent_links`.\n",
+            "# LoTSS DR3 Production Association Run\n\nProduction run using `lotss_association.parent_links.run_parent_links`.\n",
             encoding="utf-8",
         )
     logger.info("Building manifest")

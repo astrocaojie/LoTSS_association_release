@@ -8,8 +8,8 @@ from typing import Any
 
 import pandas as pd
 
-from lofar_det_vsex.association import run_component_association
-from lofar_det_vsex.utils import write_dataframe
+from lotss_association.association import run_component_association
+from lotss_association.utils import write_dataframe
 
 from .common import (
     group_summary_from_membership,

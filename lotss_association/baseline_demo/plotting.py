@@ -179,7 +179,7 @@ def _plot_case(
     _save_figure(fig, output_stem)
 
 
-def _placeholder(output_stem: Path, title: str, message: str) -> None:
+def _empty_case_figure(output_stem: Path, title: str, message: str) -> None:
     fig, ax = plt.subplots(figsize=(6, 3))
     ax.axis("off")
     ax.text(0.5, 0.62, title, ha="center", va="center", fontsize=12)
@@ -201,7 +201,7 @@ def plot_case_figures(
     else:
         weak = pd.DataFrame()
     if weak.empty:
-        _placeholder(out / "figure4_unconstrained_vs_constrained_cases", "Figure 4", "No weak-chain unconstrained/constrained difference case found in this run.")
+        _empty_case_figure(out / "figure4_unconstrained_vs_constrained_cases", "Figure 4", "No weak-chain unconstrained/constrained difference case found in this run.")
     else:
         row = weak.iloc[0]
         uncon = memberships.get("unconstrained_graph:strong_plus_accepted_weak", pd.DataFrame())
@@ -221,7 +221,7 @@ def plot_case_figures(
     pyb = memberships.get("pybdsf_island:native", pd.DataFrame())
     contour = next((value for key, value in memberships.items() if key.startswith("contour_3sigma:")), pd.DataFrame())
     if full.empty or pyb.empty or contour.empty:
-        _placeholder(out / "figure5_pybdsf_vs_3sigma_cases", "Figure 5", "PyBDSF/full/3 sigma membership outputs were not all available.")
+        _empty_case_figure(out / "figure5_pybdsf_vs_3sigma_cases", "Figure 5", "PyBDSF/full/3 sigma membership outputs were not all available.")
     else:
         pyb_map = _component_group_map(pyb)
         candidate_ids: set[str] = set()
@@ -241,18 +241,18 @@ def plot_case_figures(
                 out / "figure5_pybdsf_vs_3sigma_cases",
             )
         else:
-            _placeholder(out / "figure5_pybdsf_vs_3sigma_cases", "Figure 5", "No full group spanning multiple PyBDSF islands was found in this run.")
+            _empty_case_figure(out / "figure5_pybdsf_vs_3sigma_cases", "Figure 5", "No full group spanning multiple PyBDSF islands was found in this run.")
 
     distance_keys = sorted(key for key in memberships if key.startswith("distance_only:tau_"))
     if len(distance_keys) < 3:
-        _placeholder(out / "figure6_distance_threshold_cases", "Figure 6", "Fewer than three distance thresholds were available.")
+        _empty_case_figure(out / "figure6_distance_threshold_cases", "Figure 6", "Fewer than three distance thresholds were available.")
     else:
         low = memberships[distance_keys[0]]
         mid = memberships[distance_keys[len(distance_keys) // 2]]
         high = memberships[distance_keys[-1]]
         high_groups = high.groupby("predicted_group_id").size().sort_values(ascending=False)
         if high_groups.empty:
-            _placeholder(out / "figure6_distance_threshold_cases", "Figure 6", "No distance groups found.")
+            _empty_case_figure(out / "figure6_distance_threshold_cases", "Figure 6", "No distance groups found.")
         else:
             gid = str(high_groups.index[0])
             comp_ids = set(high.loc[high["predicted_group_id"].astype(str) == gid, "component_id"].astype(str))

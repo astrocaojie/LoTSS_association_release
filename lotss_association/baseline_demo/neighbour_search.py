@@ -10,8 +10,8 @@ import numpy as np
 import pandas as pd
 from scipy.spatial import cKDTree
 
-from lofar_det_vsex.association import compute_beam_size_arcsec
-from lofar_det_vsex.utils import safe_float
+from lotss_association.association import compute_beam_size_arcsec
+from lotss_association.utils import safe_float
 
 
 @dataclass

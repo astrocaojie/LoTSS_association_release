@@ -34,7 +34,7 @@ large-scale separated candidates.
 
 ## Local Sanity
 
-`lofar_det_vsex/local_sanity.py` remains diagnostic. It checks whether each local
+`lotss_association/local_sanity.py` remains diagnostic. It checks whether each local
 local group looks like a continuous local radio structure. Important fields
 include:
 
@@ -52,7 +52,7 @@ for visual review.
 
 ## Parent Candidate Gates
 
-`lofar_det_vsex/parent_association.py` evaluates only pairs of Stage 1.5 local
+`lotss_association/parent_links.py` evaluates only pairs of Stage 1.5 local
 groups. A pair is rejected before scoring unless it is genuinely large scale:
 
 - `group_distance_beam >= 10.0`, or

@@ -4,7 +4,7 @@ import unittest
 
 import numpy as np
 
-from lofar_det_vsex.baseline_demo.comparison_metrics import bcubed_metrics, overmerge_split_rates, pairwise_prf
+from lotss_association.baseline_demo.comparison_metrics import bcubed_metrics, overmerge_split_rates, pairwise_prf
 
 
 class MembershipMetricsTest(unittest.TestCase):

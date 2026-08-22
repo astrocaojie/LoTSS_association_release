@@ -14,8 +14,8 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 
-from lofar_det_vsex.baseline_demo.common import component_id_series, group_summary_from_membership, membership_from_clusters, parse_component_ids
-from lofar_det_vsex.baseline_demo.comparison_metrics import (
+from lotss_association.baseline_demo.common import component_id_series, group_summary_from_membership, membership_from_clusters, parse_component_ids
+from lotss_association.baseline_demo.comparison_metrics import (
     bcubed_metrics,
     manual_label_metrics,
     overmerge_split_rates,
@@ -23,9 +23,9 @@ from lofar_det_vsex.baseline_demo.comparison_metrics import (
     split_merge_against_reference,
     summarize_groups,
 )
-from lofar_det_vsex.baseline_demo.plotting import _display_image, _save_figure
-from lofar_det_vsex.baseline_demo.reporting import edge_table_hash
-from lofar_det_vsex.utils import json_dumps_safe, write_dataframe
+from lotss_association.baseline_demo.plotting import _display_image, _save_figure
+from lotss_association.baseline_demo.reporting import edge_table_hash
+from lotss_association.utils import json_dumps_safe, write_dataframe
 
 
 FULL_VARIANT_KEYS = ("full_method", "full")

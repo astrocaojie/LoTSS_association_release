@@ -14,7 +14,7 @@ if [[ "${MODE}" == "smoke" ]]; then
     --output-dir "${OUTPUT_ROOT}" \
     --mode smoke
   echo "Smoke/preflight complete: ${OUTPUT_ROOT}"
-  echo "Full run template: MODE=full sbatch --array=0-7 scripts/hpc/submit_dr1_baselines_hpc5_8.sh"
+  echo "Full run example: MODE=full sbatch --array=0-7 scripts/hpc/submit_dr1_baselines_hpc5_8.sh"
   exit 0
 fi
 
